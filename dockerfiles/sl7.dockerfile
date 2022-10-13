@@ -52,4 +52,8 @@ RUN yum clean all \
  && yum -y install xxhash cyrus-sasl-devel xxhash-libs \
  && yum clean all
 
+ ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/quick-mrb-start.sh /
+
+ RUN /quick_mrb_start.sh
+
 ENTRYPOINT ["/bin/bash", "-l", "-c" ]

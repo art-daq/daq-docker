@@ -43,8 +43,8 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            eflumerf/sl7
-            ghcr.io/art-daq/sl7
+            eflumerf/otsdaq-base
+            ghcr.io/art-daq/otsdaq-base
           tags: |
             type=raw,value=latest
             type=ref,event=branch
