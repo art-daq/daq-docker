@@ -22,7 +22,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
         with:
-          repository: DUNE-DAQ/daq-docker
+          repository: art-daq/daq-docker
           path: daq-docker 
       
       - name: Log in to Docker Hub
@@ -36,7 +36,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.BOT_CI_ISSUES }}
       
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -44,7 +44,7 @@ jobs:
         with:
           images: |
             dunedaq/sl7
-            ghcr.io/DUNE-DAQ/sl7
+            ghcr.io/art-daq/sl7
           tags: |
             type=raw,value=latest
             type=ref,event=branch
