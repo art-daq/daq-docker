@@ -10,7 +10,7 @@ jobs:
 
   build_sl7_externals:
     name: build_sl7
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
