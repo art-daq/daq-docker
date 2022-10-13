@@ -43,7 +43,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            dunedaq/sl7
+            eflumerf/sl7
             ghcr.io/art-daq/sl7
           tags: |
             type=raw,value=latest
