@@ -24,7 +24,7 @@ RUN yum clean all \
  nc perl expat-devel gdb time tar zip xz bzip2 patch sudo which strace \
  openssh-clients rsync tmux svn wget cmake \
  gcc gstreamer gtk2-devel xterm \
- gstreamer-plugins-base-devel  \
+ gstreamer-plugins-base-devel lynx  \
  vim which net-tools xorg-x11-fonts* \
  xorg-x11-server-utils xorg-x11-twm dbus dbus-x11 \
  libuuid-devel wget redhat-lsb-core openssh-server \
@@ -51,9 +51,33 @@ RUN yum clean all \
 RUN yum clean all \
  && yum -y install xxhash cyrus-sasl-devel xxhash-libs \
  && yum clean all
+ 
 
- ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/quick-mrb-start.sh /
+SHELL ["/bin/bash", "-c"]
+WORKDIR /opt/otsdaq
 
- RUN /quick_mrb_start.sh
+ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/quick-mrb-start.sh /opt/otsdaq/quick-mrb-start.sh
+
+RUN chmod +x /opt/otsdaq/quick-mrb-start.sh && ./quick-mrb-start.sh && rm -f /opt/otsdaq/products/*.bz2
+ 
+WORKDIR /opt/otsdaq
+
+RUN source setup_ots.sh && cd srcs && for pkg in \
+ trace artdaq_core artdaq_utilities artdaq_mfextensions artdaq_epics_plugin \
+ artdaq_pcp_mmv_plugin artdaq artdaq_core_demo artdaq_demo artdaq_daqinterface \
+ artdaq_demo_hdf5 artdaq_database otsdaq otsdaq_utilities otsdaq_components \
+ otsdaq_epics otsdaq_prepmodernization otsdaq_demo;do \
+ mrb gitCheckout https://github.com/art-daq/$pkg ;done && mv trace TRACE && \
+ for dir in */;do cd $dir;git checkout develop;cd ..;done
+
+ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/fetch_products.sh /opt/otsdaq/products/fetch_products.sh
+
+WORKDIR /opt/otsdaq/products
+
+RUN chmod +x /opt/otsdaq/products/fetch_products.sh && ./fetch_products.sh
+
+WORKDIR /opt/otsdaq
+
+RUN source setup_ots.sh && mrb z && mrbsetenv && mrb b
 
 ENTRYPOINT ["/bin/bash", "-l", "-c" ]
