@@ -67,8 +67,8 @@ RUN source setup_ots.sh && cd srcs && for pkg in \
  artdaq_pcp_mmv_plugin artdaq artdaq_core_demo artdaq_demo artdaq_daqinterface \
  artdaq_demo_hdf5 artdaq_database otsdaq otsdaq_utilities otsdaq_components \
  otsdaq_epics otsdaq_prepmodernization otsdaq_demo;do \
- mrb gitCheckout https://github.com/art-daq/$pkg ;done && mv trace TRACE && \
- for dir in */;do cd $dir;git checkout develop;cd ..;done
+ git clone git@github.com:art-daq/$pkg -b develop ;done && mv trace TRACE && \
+ mrb uc
 
 ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/fetch_products.sh /opt/otsdaq/products/fetch_products.sh
 
