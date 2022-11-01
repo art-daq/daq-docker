@@ -2,8 +2,8 @@
 
 FROM scientificlinux/sl:7
 
-MAINTAINER Pengfei Ding "dingpf@fnal.gov"
-ENV REFRESHED_AT 2020-10-19
+MAINTAINER Eric Flumerfelt "eflumerf@fnal.gov"
+ENV REFRESHED_AT 2022-11-01
 
 RUN yum clean all \
  && yum -y install epel-release \
@@ -36,7 +36,7 @@ RUN yum clean all \
  && yum clean all
 
 RUN yum clean all \
- && yum -y install java-11-openjdk \
+ && yum -y install java-11-openjdk pcp-devel \
  && yum clean all
 
 
@@ -66,8 +66,9 @@ RUN source setup_ots.sh && cd srcs && for pkg in \
  trace artdaq_core artdaq_utilities artdaq_mfextensions artdaq_epics_plugin \
  artdaq_pcp_mmv_plugin artdaq artdaq_core_demo artdaq_demo artdaq_daqinterface \
  artdaq_demo_hdf5 artdaq_database otsdaq otsdaq_utilities otsdaq_components \
- otsdaq_epics otsdaq_prepmodernization otsdaq_demo;do \
- git clone git@github.com:art-daq/$pkg -b develop ;done && mv trace TRACE && \
+ otsdaq_epics otsdaq_prepmodernization;do \
+ git clone https://github.com/art-daq/$pkg -b develop ;done && mv trace TRACE && \
+ for dir in */;do cd $dir;git checkout develop;cd ..;done && \
  mrb uc
 
 ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/fetch_products.sh /opt/otsdaq/products/fetch_products.sh
@@ -78,6 +79,6 @@ RUN chmod +x /opt/otsdaq/products/fetch_products.sh && ./fetch_products.sh
 
 WORKDIR /opt/otsdaq
 
-RUN source setup_ots.sh && mrb z && mrbsetenv && mrb b
+RUN source setup_ots.sh && mrb z && mrbsetenv && mrb uc && mrb b
 
 ENTRYPOINT ["/bin/bash", "-l", "-c" ]
