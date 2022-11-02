@@ -2,8 +2,8 @@
 
 FROM scientificlinux/sl:7
 
-MAINTAINER Pengfei Ding "dingpf@fnal.gov"
-ENV REFRESHED_AT 2020-10-19
+MAINTAINER Eric Flumerfelt "eflumerf@fnal.gov"
+ENV REFRESHED_AT 2022-10-31
 
 RUN yum clean all \
  && yum -y install epel-release \
