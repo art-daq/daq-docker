@@ -8,31 +8,30 @@ ENV REFRESHED_AT 2023-08-11
 SHELL ["/bin/bash", "-c"]
 WORKDIR /opt/otsdaq
 
-RUN
-
 ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/quick-mrb-start.sh /opt/otsdaq/quick-mrb-start.sh
 
-RUN --mount=type=bind,target=/cvmfs,source=/cvmfs,rw chmod +x /opt/otsdaq/quick-mrb-start.sh && ./quick-mrb-start.sh && rm -f /opt/otsdaq/products/*.bz2
+RUN chmod +x /opt/otsdaq/quick-mrb-start.sh && ./quick-mrb-start.sh && rm -f /opt/otsdaq/products/*.bz2
  
 WORKDIR /opt/otsdaq
 
-RUN --mount=type=bind,target=/cvmfs,source=/cvmfs,rw source setup_ots.sh && cd srcs && for pkg in \
+RUN source setup_ots.sh && cd srcs && for pkg in \
  trace artdaq_core artdaq_utilities artdaq_mfextensions artdaq_epics_plugin \
  artdaq_pcp_mmv_plugin artdaq artdaq_core_demo artdaq_demo artdaq_daqinterface \
- artdaq_demo_hdf5 artdaq_database otsdaq otsdaq_utilities otsdaq_components \
+ artdaq_database otsdaq otsdaq_utilities otsdaq_components \
  otsdaq_epics otsdaq_prepmodernization;do \
  git clone https://github.com/art-daq/$pkg -b develop ;done && mv trace TRACE && \
- for dir in */;do cd $dir;git checkout develop;cd ..;done && \
  mrb uc
 
-#ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/fetch_products.sh /opt/otsdaq/products/fetch_products.sh
+ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/fetch_products.sh /opt/otsdaq/products/fetch_products.sh
 
-# WORKDIR /opt/otsdaq/products
+WORKDIR /opt/otsdaq/products
 
-# RUN --mount=type=bind,target=/cvmfs,source=/cvmfs,rw chmod +x /opt/otsdaq/products/fetch_products.sh && ./fetch_products.sh
+RUN chmod +x /opt/otsdaq/products/fetch_products.sh && ./fetch_products.sh
 
-# WORKDIR /opt/otsdaq
+WORKDIR /opt/otsdaq
 
-RUN --mount=type=bind,target=/cvmfs,source=/cvmfs,rw source setup_ots.sh && mrb z && mrbsetenv && mrb uc && mrb b
+RUN source setup_ots.sh && mrb z && mrbsetenv && mrb uc && mrb b
+
+RUN ls -l /opt/otsdaq/products
 
 ENTRYPOINT ["/bin/bash", "-l", "-c" ]
