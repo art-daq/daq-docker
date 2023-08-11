@@ -1,4 +1,4 @@
-name: Build sl7 docker image
+name: Build artdaq-suite docker image
 
 on:
   schedule:
@@ -8,7 +8,7 @@ on:
     tags:
       - 'v*'
     paths:
-      - dockerfiles/sl7.dockerfile
+      - dockerfiles/artdaq-suite.dockerfile
 
   workflow_dispatch:
 
@@ -21,6 +21,24 @@ jobs:
       packages: write
       contents: read
     steps:
+      - uses: cvmfs-contrib/github-action-cvmfs@v3
+
+      - name: change dir permission
+        run: |
+          sudo chmod -R go+rwx /var/lib/cvmfs
+
+      - name: Cache cvmfs cache
+        id: cvmfs_cache
+        uses: actions/cache@v3
+        with:
+          path: /var/lib/cvmfs/shared
+          key: cachecvmfs
+
+      - name: restore dir permission
+        run: |
+          sudo chown -R cvmfs.cvmfs /var/lib/cvmfs
+          sudo chmod -R go-rwx /var/lib/cvmfs
+
       - name: Check out the repo
         uses: actions/checkout@v3
         with:
@@ -45,8 +63,8 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            eflumerf/otsdaq-base
-            ghcr.io/art-daq/otsdaq-base
+            eflumerf/artdaq-suite
+            ghcr.io/art-daq/artdaq-suite
           tags: |
             type=raw,value=latest
             type=ref,event=branch
@@ -57,7 +75,7 @@ jobs:
           build_dir="${{ github.workspace }}/docker-build"
           mkdir -p $build_dir
           cd $build_dir
-          cp ${{ github.workspace }}/daq-docker/dockerfiles/sl7.dockerfile $build_dir/Dockerfile
+          cp ${{ github.workspace }}/daq-docker/dockerfiles/artdaq-suite.dockerfile $build_dir/Dockerfile
       
       - name: Build and push Docker images
         uses: docker/build-push-action@v3
