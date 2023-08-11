@@ -12,11 +12,11 @@ RUN
 
 ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/quick-mrb-start.sh /opt/otsdaq/quick-mrb-start.sh
 
-RUN --mount=type=bind,target=/cvmfs,source=/cvmfs chmod +x /opt/otsdaq/quick-mrb-start.sh && ./quick-mrb-start.sh && rm -f /opt/otsdaq/products/*.bz2
+RUN --mount=type=bind,target=/cvmfs,source=/cvmfs,bind-propagation=shared,rw chmod +x /opt/otsdaq/quick-mrb-start.sh && ./quick-mrb-start.sh && rm -f /opt/otsdaq/products/*.bz2
  
 WORKDIR /opt/otsdaq
 
-RUN --mount=type=bind,target=/cvmfs,source=/cvmfs source setup_ots.sh && cd srcs && for pkg in \
+RUN --mount=type=bind,target=/cvmfs,source=/cvmfs,bind-propagation=shared,rw source setup_ots.sh && cd srcs && for pkg in \
  trace artdaq_core artdaq_utilities artdaq_mfextensions artdaq_epics_plugin \
  artdaq_pcp_mmv_plugin artdaq artdaq_core_demo artdaq_demo artdaq_daqinterface \
  artdaq_demo_hdf5 artdaq_database otsdaq otsdaq_utilities otsdaq_components \
@@ -29,10 +29,10 @@ RUN --mount=type=bind,target=/cvmfs,source=/cvmfs source setup_ots.sh && cd srcs
 
 # WORKDIR /opt/otsdaq/products
 
-# RUN --mount=type=bind,target=/cvmfs,source=/cvmfs chmod +x /opt/otsdaq/products/fetch_products.sh && ./fetch_products.sh
+# RUN --mount=type=bind,target=/cvmfs,source=/cvmfs,bind-propagation=shared,rw chmod +x /opt/otsdaq/products/fetch_products.sh && ./fetch_products.sh
 
 # WORKDIR /opt/otsdaq
 
-RUN --mount=type=bind,target=/cvmfs,source=/cvmfs source setup_ots.sh && mrb z && mrbsetenv && mrb uc && mrb b
+RUN --mount=type=bind,target=/cvmfs,source=/cvmfs,bind-propagation=shared,rw source setup_ots.sh && mrb z && mrbsetenv && mrb uc && mrb b
 
 ENTRYPOINT ["/bin/bash", "-l", "-c" ]

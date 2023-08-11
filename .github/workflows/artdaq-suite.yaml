@@ -84,3 +84,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          
+      - name: change dir permission again
+        run: |
+          sudo chmod -R go+rwx /var/lib/cvmfs
