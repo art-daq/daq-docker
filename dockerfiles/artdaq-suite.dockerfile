@@ -17,9 +17,9 @@ WORKDIR /opt/otsdaq
 RUN source setup_ots.sh && cd srcs && for pkg in \
  trace artdaq_core artdaq_utilities artdaq_mfextensions artdaq_epics_plugin \
  artdaq_pcp_mmv_plugin artdaq artdaq_core_demo artdaq_demo artdaq_daqinterface \
- artdaq_database otsdaq otsdaq_utilities otsdaq_components \
+ artdaq_database otsdaq otsdaq_demo otsdaq_utilities otsdaq_components \
  otsdaq_epics otsdaq_prepmodernization;do \
- git clone https://github.com/art-daq/$pkg -b develop ;done && mv trace TRACE && \
+ git clone https://github.com/art-daq/$pkg;cd $pkg;git checkout develop;cd ..;done && mv trace TRACE && \
  mrb uc
 
 ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/fetch_products.sh /opt/otsdaq/products/fetch_products.sh
