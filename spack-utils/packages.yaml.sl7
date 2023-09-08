@@ -1,0 +1,15 @@
+packages:
+  iconv:
+    buildable: false
+    require: libc
+  libc:
+    externals:
+    - spec: libc +iconv @2.17 %gcc@4.8.5 os=scientific7
+      prefix: /usr
+    buildable: false
+  gettext:
+    externals:
+    - spec: gettext ~bzip2+curses~git+libunistring+libxml2~tar+xz @0.19 %gcc@4.8.5
+        os=scientific7 ^libc
+      prefix: /usr
+    buildable: false
