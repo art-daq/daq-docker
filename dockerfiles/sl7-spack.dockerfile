@@ -55,6 +55,35 @@ RUN cd /tmp \
  && cd /tmp \
  && rm -rf PyYAML-*
 
-RUN mkdir -p /dunedaq/run && chmod go+rw /dunedaq/run
+RUN mkdir -p /opt/spack && chmod go+rw /opt/spack
+
+WORKDIR /opt
+
+RUN git clone https://github.com/FNALssi/spack.git -b fnal-develop
+
+#ADD https://raw.githubusercontent.com/art-daq/daq-docker/main/spack-utils/packages.yaml.sl7 /opt/spack/etc/spack/packages.yaml
+
+WORKDIR /opt/spack/var/spack/repos
+
+RUN git clone https://github.com/eflumerf/fnal_art.git -b eflumerf/ArtdaqSuiteUpdate
+
+RUN source /opt/spack/share/spack/setup-env.sh \
+    && spack compiler find \
+    && spack repo add /opt/spack/var/spack/repos/fnal_art
+
+RUN source /opt/spack/share/spack/setup-env.sh \
+    && spack install gcc@11.3.0 \
+    && spack load gcc@11.3.0 \
+    && spack compiler find 
+
+RUN source /opt/spack/share/spack/setup-env.sh \
+    && spack load gcc@11.3.0 \
+    && spack install binutils@2.33.1%gcc@11.3.0
+
+#RUN source /opt/spack/share/spack/setup-env.sh \
+#    && spack load gcc@11.3.0 \
+#    && spack load --first binutils@2.33.1 \
+#    && spack install artdaq-suite@v3_12_05 ~pcp+demo s=124 %gcc@11.3.0
+
 
 ENTRYPOINT ["/bin/bash"]
