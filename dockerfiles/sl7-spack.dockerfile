@@ -39,7 +39,7 @@ RUN source /opt/spack/share/spack/setup-env.sh \
 # ...and then the stuff that does
 RUN source /opt/spack/share/spack/setup-env.sh \
     && spack load gcc@11.3.0 \
-    && spack load --first binutils%gcc@11.3.0
+    && spack load --first binutils%gcc@11.3.0 \
     && spack install --fail-fast artdaq-suite@v3_12_05 ~pcp+demo s=124 %gcc@11.3.0
 
 ENTRYPOINT ["/bin/bash"]
