@@ -1,14 +1,19 @@
 # This Dockerfile is used to build an headles vnc image based on Centos
 
-FROM eflumerf/sl7-minimal:latest
+FROM eflumerf/sl7-minimal:latest as intermediate
 
 MAINTAINER Eric Flumerfelt "eflumerf@fnal.gov"
 ENV REFRESHED_AT 2023-08-11
 
 SHELL ["/bin/bash", "-c"]
+
+RUN mkdir -p /cvmfs/fermilab.opensciencegrid.org/products/artdaq
+
 WORKDIR /opt/otsdaq
 
 ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/quick-mrb-start.sh /opt/otsdaq/quick-mrb-start.sh
+
+RUN ln -s /cvmfs/fermilab.opensciencegrid.org/products/artdaq /opt/otsdaq/products
 
 RUN chmod +x /opt/otsdaq/quick-mrb-start.sh && ./quick-mrb-start.sh && rm -f /opt/otsdaq/products/*.bz2
  
@@ -26,12 +31,16 @@ ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/fetch_pr
 
 WORKDIR /opt/otsdaq/products
 
-RUN chmod +x /opt/otsdaq/products/fetch_products.sh && ./fetch_products.sh
+RUN chmod +x /opt/otsdaq/products/fetch_products.sh && ./fetch_products.sh /opt/otsdaq/srcs
 
 WORKDIR /opt/otsdaq
 
 RUN source setup_ots.sh && mrb z && mrbsetenv && mrb uc && mrb b
 
-RUN ls -l /opt/otsdaq/products
+RUN rm -rf /cvmfs/fermilab.opensciencegrid.org/products
+
+FROM eflumerf/sl7-minimal:latest
+
+COPY --from=intermediate /opt/otsdaq /opt/otsdaq
 
 ENTRYPOINT ["/bin/bash", "-l", "-c" ]
