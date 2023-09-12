@@ -34,7 +34,7 @@ RUN source /opt/spack/share/spack/setup-env.sh \
 # Build the stuff that doesn't need binutils...
 RUN source /opt/spack/share/spack/setup-env.sh \
     && spack load gcc@11.3.0 \
-    && spack install artdaq-suite@v3_12_05 ~pcp+demo s=124 %gcc@11.3.0
+    && spack install artdaq-suite@v3_12_05 ~pcp+demo s=124 %gcc@11.3.0 || true
 
 # ...and then the stuff that does
 RUN source /opt/spack/share/spack/setup-env.sh \
