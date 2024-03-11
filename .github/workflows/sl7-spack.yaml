@@ -26,13 +26,13 @@ jobs:
         run: rm -rf /opt/hostedtoolcache
 
       - name: Check out the repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
         with:
           repository: art-daq/daq-docker
           path: daq-docker 
       
       - name: Log in to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@main
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -46,7 +46,7 @@ jobs:
       
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@main
         with:
           images: |
             eflumerf/sl7-spack
@@ -64,7 +64,7 @@ jobs:
           cp ${{ github.workspace }}/daq-docker/dockerfiles/sl7-spack.dockerfile $build_dir/Dockerfile
       
       - name: Build and push Docker images
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@main
         with:
           context: ${{ github.workspace }}/docker-build
           push: true
