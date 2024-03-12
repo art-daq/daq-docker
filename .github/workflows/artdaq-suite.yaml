@@ -31,13 +31,13 @@ jobs:
           path: daq-docker 
       
       - name: Log in to Docker Hub
-        uses: docker/login-action@main
+        uses: docker/login-action@master
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
       - name: Log in to the Container registry
-        uses: docker/login-action@main
+        uses: docker/login-action@master
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -45,7 +45,7 @@ jobs:
       
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@main
+        uses: docker/metadata-action@master
         with:
           images: |
             eflumerf/artdaq-suite
@@ -63,7 +63,7 @@ jobs:
           cp ${{ github.workspace }}/daq-docker/dockerfiles/artdaq-suite.dockerfile $build_dir/Dockerfile
       
       - name: Build and push Docker images
-        uses: docker/build-push-action@main
+        uses: docker/build-push-action@master
         with:
           context: ${{ github.workspace }}/docker-build
           push: true
