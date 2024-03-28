@@ -29,7 +29,7 @@ RUN yum clean all \
     java-1.8.0-openjdk-devel java-1.8.0-openjdk-headless gcc gcc-c++ \
     gcc-gfortran libgcc bzip2 bzip2-devel bzip2-libs unzip librdmacm \
     libuuid-devel python3-setuptools python3-setuptools_scm python3-pip \
-    python3-apipkg python3-pyyaml \
+    python3-apipkg python3-pyyaml libxkbcommon-devel libxkbcommon-x11-devel \
  && yum clean all
 
 RUN yum clean all \
