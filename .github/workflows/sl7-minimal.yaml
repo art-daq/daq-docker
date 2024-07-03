@@ -2,7 +2,7 @@ name: Build sl7-minimal docker image
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ main ]
     tags:
       - 'v*'
     paths:
