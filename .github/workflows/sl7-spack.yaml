@@ -5,7 +5,7 @@ on:
     - cron: "0 5 1 * *"
 
   push:
-    branches: [ develop ]
+    branches: [ main ]
     tags:
       - 'v*'
     paths:
