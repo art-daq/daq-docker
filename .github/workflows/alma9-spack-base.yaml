@@ -1,14 +1,16 @@
-name: Build sl7-minimal docker image
+name: Build alma9-spack docker image
 
 on:
+  schedule:
+    - cron: "0 5 * * 2"
+
   push:
     branches: [ main ]
     tags:
       - 'v*'
     paths:
-      - dockerfiles/sl7-minimal.dockerfile
-  schedule:
-    - cron: "0 0 * * 0"
+      - dockerfiles/alma9-spack-base.dockerfile
+
   workflow_dispatch:
 
 jobs:
@@ -20,6 +22,9 @@ jobs:
       packages: write
       contents: read
     steps:
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
       - name: Check out the repo
         uses: actions/checkout@main
         with:
@@ -44,19 +49,19 @@ jobs:
         uses: docker/metadata-action@master
         with:
           images: |
-            eflumerf/sl7-minimal
-            ghcr.io/art-daq/sl7-minimal
+            eflumerf/alma9-spack
+            ghcr.io/art-daq/alma9-spack
           tags: |
             type=raw,value=latest
             type=ref,event=branch
             type=ref,event=tag
-
+      
       - name: prepare build dir
         run: |
           build_dir="${{ github.workspace }}/docker-build"
           mkdir -p $build_dir
           cd $build_dir
-          cp ${{ github.workspace }}/daq-docker/dockerfiles/sl7-minimal.dockerfile $build_dir/Dockerfile
+          cp ${{ github.workspace }}/daq-docker/dockerfiles/alma9-spack-base.dockerfile $build_dir/Dockerfile
       
       - name: Build and push Docker images
         uses: docker/build-push-action@master
@@ -65,3 +70,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          

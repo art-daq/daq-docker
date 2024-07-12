@@ -1,4 +1,4 @@
-name: Build artdaq-suite docker image
+name: Build gcc-spack docker image
 
 on:
   schedule:
@@ -8,7 +8,7 @@ on:
     tags:
       - 'v*'
     paths:
-      - dockerfiles/artdaq-suite.dockerfile
+      - dockerfiles/gcc-spack.dockerfile
 
   workflow_dispatch:
 
@@ -16,7 +16,7 @@ jobs:
 
   push_to_registries:
     name: Push Docker image to multiple registries
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       packages: write
       contents: read
@@ -33,6 +33,7 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@master
         with:
+          registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
@@ -48,8 +49,8 @@ jobs:
         uses: docker/metadata-action@master
         with:
           images: |
-            eflumerf/artdaq-suite
-            ghcr.io/art-daq/artdaq-suite
+            eflumerf/gcc-spack
+            ghcr.io/art-daq/gcc-spack
           tags: |
             type=raw,value=latest
             type=ref,event=branch
@@ -60,8 +61,11 @@ jobs:
           build_dir="${{ github.workspace }}/docker-build"
           mkdir -p $build_dir
           cd $build_dir
-          cp ${{ github.workspace }}/daq-docker/dockerfiles/artdaq-suite.dockerfile $build_dir/Dockerfile
+          cp ${{ github.workspace }}/daq-docker/dockerfiles/gcc-spack.dockerfile $build_dir/Dockerfile
       
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@master
+        
       - name: Build and push Docker images
         uses: docker/build-push-action@master
         with:

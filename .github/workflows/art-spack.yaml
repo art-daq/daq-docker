@@ -1,15 +1,14 @@
-name: Build sl7-spack docker image
+name: Build art-spack docker image
 
 on:
   schedule:
-    - cron: "0 5 1 * *"
-
+    - cron: "0 0 * * 0"
   push:
     branches: [ main ]
     tags:
       - 'v*'
     paths:
-      - dockerfiles/sl7-spack.dockerfile
+      - dockerfiles/art-spack.dockerfile
 
   workflow_dispatch:
 
@@ -17,14 +16,14 @@ jobs:
 
   push_to_registries:
     name: Push Docker image to multiple registries
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       packages: write
       contents: read
-    steps:
+    steps: 
       - name: Delete huge unnecessary tools folder
         run: rm -rf /opt/hostedtoolcache
-
+        
       - name: Check out the repo
         uses: actions/checkout@main
         with:
@@ -34,6 +33,7 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@master
         with:
+          registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
@@ -49,8 +49,8 @@ jobs:
         uses: docker/metadata-action@master
         with:
           images: |
-            eflumerf/sl7-spack
-            ghcr.io/art-daq/sl7-spack
+            eflumerf/art-spack
+            ghcr.io/art-daq/art-spack
           tags: |
             type=raw,value=latest
             type=ref,event=branch
@@ -61,8 +61,11 @@ jobs:
           build_dir="${{ github.workspace }}/docker-build"
           mkdir -p $build_dir
           cd $build_dir
-          cp ${{ github.workspace }}/daq-docker/dockerfiles/sl7-spack.dockerfile $build_dir/Dockerfile
+          cp ${{ github.workspace }}/daq-docker/dockerfiles/art-spack.dockerfile $build_dir/Dockerfile
       
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@master
+        
       - name: Build and push Docker images
         uses: docker/build-push-action@master
         with:
@@ -70,3 +73,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
