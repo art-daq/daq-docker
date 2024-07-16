@@ -11,7 +11,6 @@ WORKDIR /opt/artdaq
 
 ADD https://raw.githubusercontent.com/art-daq/artdaq_demo/develop/tools/quick-spack-start.sh /opt/artdaq/quick-spack-start.sh
 
-RUN source setupARTDAQDEMO && spack add trace~kmod
-RUN chmod +x /opt/artdaq/quick-spack-start.sh && ./quick-spack-start.sh --develop
+RUN chmod +x /opt/artdaq/quick-spack-start.sh && ./quick-spack-start.sh --develop --no-kmod
  
 ENTRYPOINT ["/bin/bash", "-l", "-c" ]
