@@ -1,6 +1,6 @@
 # This Dockerfile is used to build an headles vnc image based on Centos
 
-FROM eflumerf/gcc-spack:latest
+FROM eflumerf/art-noroot-spack:latest
 
 MAINTAINER Eric Flumerfelt "eflumerf@fnal.gov"
 ENV REFRESHED_AT 2023-08-11
