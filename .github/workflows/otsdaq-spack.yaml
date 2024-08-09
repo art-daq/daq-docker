@@ -20,7 +20,25 @@ jobs:
     permissions:
       packages: write
       contents: read
-    steps: 
+    steps:     
+      - uses: cvmfs-contrib/github-action-cvmfs@main
+
+      - name: change dir permission
+        run: |
+          sudo chmod -R go+rwx /var/lib/cvmfs
+
+      - name: Cache cvmfs cache
+        id: cvmfs_cache
+        uses: actions/cache@main
+        with:
+          path: /var/lib/cvmfs/shared
+          key: cachecvmfs
+ 
+      - name: restore dir permission
+        run: |
+          sudo chown -R cvmfs.cvmfs /var/lib/cvmfs
+          sudo chmod -R go-rwx /var/lib/cvmfs
+
       - name: Delete huge unnecessary tools folder
         run: rm -rf /opt/hostedtoolcache
         
@@ -69,4 +87,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
+          
+      - name: change dir permission again
+        run: |
+          sudo chmod -R go+rwx /var/lib/cvmfs
