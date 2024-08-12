@@ -11,7 +11,7 @@ WORKDIR /opt/artdaq
 
 ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/ots-quick-spack-start.sh /opt/artdaq/ots-quick-spack-start.sh
 
-ADD /cvmfs/fermilab.opensciencegrid.org/products/artdaq/otsdaq_spack /cvmfs/fermilab.opensciencegrid.org/products/artdaq/otsdaq_spack
+ADD /cvmfs/fermilab.opensciencegrid.org/products/artdaq/artdaq_spack /cvmfs/fermilab.opensciencegrid.org/products/artdaq/artdaq_spack
 
 RUN chmod +x /opt/artdaq/ots-quick-spack-start.sh && ./ots-quick-spack-start.sh --develop --no-kmod --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/artdaq_spack
  
