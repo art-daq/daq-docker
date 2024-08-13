@@ -25,7 +25,7 @@ jobs:
 
       - name: Test CVMFS
         run: |
-          ls -l /cvmfs/fermilab.opensciencegrid.org
+          ls -l /cvmfs/fermilab.opensciencegrid.org/products/artdaq/artdaq_spack
 
       - name: change dir permission
         run: |
