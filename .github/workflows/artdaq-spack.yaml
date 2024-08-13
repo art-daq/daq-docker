@@ -23,6 +23,10 @@ jobs:
     steps: 
       - uses: cvmfs-contrib/github-action-cvmfs@main
 
+      - name: Test CVMFS
+        run: |
+          ls -l /cvmfs/fermilab.opensciencegrid.org
+
       - name: change dir permission
         run: |
           sudo chmod -R go+rwx /var/lib/cvmfs
