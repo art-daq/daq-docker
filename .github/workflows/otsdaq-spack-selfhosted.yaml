@@ -1,4 +1,4 @@
-name: Build otsdaq-spack docker image
+name: Build otsdaq-spack docker image (self hosted)
 
 on:
   schedule:
