@@ -62,6 +62,7 @@ jobs:
           mkdir -p $build_dir
           cd $build_dir
           cp ${{ github.workspace }}/daq-docker/dockerfiles/otsdaq-spack.dockerfile $build_dir/Dockerfile
+          cp -a /cvmfs/fermilab.opensciencegrid.org/products/artdaq/artdaq_spack $build_dir/artdaq_spack
       
       - name: Build and push Docker images
         uses: docker/build-push-action@master
