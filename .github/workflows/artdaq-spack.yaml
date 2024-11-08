@@ -84,8 +84,7 @@ jobs:
           mkdir -p $build_dir
           cd $build_dir
           cp ${{ github.workspace }}/daq-docker/dockerfiles/artdaq-spack.dockerfile $build_dir/Dockerfile
-          mkdir artdaq_spack
-          sudo mount -obind /cvmfs/fermilab.opensciencegrid.org/products/artdaq/artdaq_spack artdaq_spack
+          cp -a /cvmfs/fermilab.opensciencegrid.org/products/artdaq/artdaq_spack $build_dir/artdaq_spack
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@master
