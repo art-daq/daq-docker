@@ -38,6 +38,10 @@ jobs:
         run: |
           sudo chown -R cvmfs.cvmfs /var/lib/cvmfs
           sudo chmod -R go-rwx /var/lib/cvmfs
+      
+      - name: Test CVMFS
+        run: |
+          ls -l /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
 
       - name: Delete huge unnecessary tools folder
         run: rm -rf /opt/hostedtoolcache
@@ -79,7 +83,7 @@ jobs:
           mkdir -p $build_dir
           cd $build_dir
           cp ${{ github.workspace }}/daq-docker/dockerfiles/otsdaq-spack.dockerfile $build_dir/Dockerfile
-          rsync -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/artdaq_spack/ $build_dir/artdaq_spack
+          rsync -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ $build_dir/spack_areas
       
       - name: Build and push Docker images
         uses: docker/build-push-action@master
