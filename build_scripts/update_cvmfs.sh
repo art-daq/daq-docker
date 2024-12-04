@@ -1,5 +1,7 @@
 cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
 
+git config --global --add safe.directory '*'
+
 artVer=132
 artdaqVer=v3_14_01
 otsVer=v2_09_00
