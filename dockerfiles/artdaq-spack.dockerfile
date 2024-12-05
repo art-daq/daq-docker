@@ -11,7 +11,7 @@ ADD https://raw.githubusercontent.com/art-daq/artdaq_demo/develop/tools/quick-sp
 RUN mkdir -p /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
 COPY spack_areas/ /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/
 
-RUN chmod +x /opt/artdaq/quick-spack-start.sh && ./quick-spack-start.sh --develop --no-kmod --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/art-suite-s132 --arch linux-almalinux9-x86_64_v3
+RUN chmod +x /opt/artdaq/quick-spack-start.sh && ./quick-spack-start.sh --develop --no-kmod --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-v3_14_01 --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/art-suite-s132 --arch linux-almalinux9-x86_64_v3
  
 RUN rm -rf /cvmfs/fermilab.opensciencegrid.org/products
 
