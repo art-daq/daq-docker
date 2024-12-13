@@ -67,7 +67,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}/otsdaq
           otsver=v`grep "project" CMakeLists.txt|grep -oE "VERSION [^)]*"|awk '{print $2}'|sed 's/\./_/g'`
-          echo "otsver=otsver}" >> $GITHUB_OUTPUT
+          echo "otsver=${otsver}" >> $GITHUB_OUTPUT
 
       - name: prepare build dir
         run: |
