@@ -96,7 +96,7 @@ jobs:
           mkdir -p $build_dir
           cd $build_dir
           cp ${{ github.workspace }}/daq-docker/dockerfiles/otsdaq-spack.dockerfile $build_dir/Dockerfile
-          rsync -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-${{ steps.otsver.outputs.otsver }} $build_dir/spack_areas/ots-${{ steps.otsver.outputs.otsver }}
+          rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-${{ steps.otsver.outputs.otsver }}/ $build_dir/spack_areas/ots-${{ steps.otsver.outputs.otsver }}
       
       - name: Build and push Docker images
         uses: docker/build-push-action@master
