@@ -3,7 +3,7 @@ cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
 
 git config --global --add safe.directory '*'
 
-otsVer=${1:-v2_09_01}
+mu2eVer=${1:-v3_03_01}
 
 function cleanup() {
     (
@@ -14,10 +14,10 @@ function cleanup() {
     )
 }
 
-echo "Building ots-$otsVer"
+echo "Building mu2e-tdaq-$mu2eVer"
 cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
-mkdir ots-$otsVer;cd ots-$otsVer
+mkdir mu2e-tdaq-$mu2eVer;cd mu2e-tdaq-$mu2eVer
 touch .cvmfscatalog
-rm ots-quick-spack-start.sh*;wget https://raw.githubusercontent.com/art-daq/otsdaq_demo/refs/heads/develop/tools/ots-quick-spack-start.sh && chmod +x ots-quick-spack-start.sh
-./ots-quick-spack-start.sh --padding --no-kmod --no-view --arch linux-almalinux9-x86_64_v3 --tag $otsVer
+rm mu2e-quick-spack-start.sh*;wget https://raw.githubusercontent.com/Mu2e/otsdaq_mu2e/refs/heads/develop/tools/mu2e-quick-spack-start.sh && chmod +x mu2e-quick-spack-start.sh
+./mu2e-quick-spack-start.sh --padding --no-kmod --no-view --arch linux-almalinux9-x86_64_v3 --tag $mu2eVer
 cleanup
