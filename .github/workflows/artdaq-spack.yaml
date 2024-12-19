@@ -45,12 +45,18 @@ jobs:
 
       - name: Delete huge unnecessary tools folder
         run: rm -rf /opt/hostedtoolcache
-        
-      - name: Check out the repo
+
+      - name: Check out the daq-docker repo
         uses: actions/checkout@main
         with:
           repository: art-daq/daq-docker
           path: daq-docker 
+
+      - name: Check out the artdaq repo
+        uses: actions/checkout@main
+        with:
+          repository: art-daq/artdaq
+          path: artdaq 
       
       - name: Log in to Docker Hub
         uses: docker/login-action@master
@@ -78,13 +84,20 @@ jobs:
             type=ref,event=branch
             type=ref,event=tag
 
+      - name: Get artdaq tag
+        id: artdaqver
+        run: |
+          cd ${{ github.workspace }}/artdaq
+          artdaqver=v`grep "project" CMakeLists.txt|grep -oE "VERSION [^)]*"|awk '{print $2}'|sed 's/\./_/g'`
+          echo "artdaqver=${artdaqver}" >> $GITHUB_OUTPUT
+
       - name: prepare build dir
         run: |
           build_dir="${{ github.workspace }}/docker-build"
           mkdir -p $build_dir
           cd $build_dir
           cp ${{ github.workspace }}/daq-docker/dockerfiles/artdaq-spack.dockerfile $build_dir/Dockerfile
-          rsync -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ $build_dir/spack_areas
+          rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-${{ steps.artdaqver.outputs.artdaqver }}/ $build_dir/spack_areas/artdaq-${{ steps.artdaqver.outputs.artdaqver }}
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@master
@@ -96,6 +109,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: ARTDAQVER=${{ steps.artdaqver.outputs.artdaqver }}
           
       - name: change dir permission again
         run: |

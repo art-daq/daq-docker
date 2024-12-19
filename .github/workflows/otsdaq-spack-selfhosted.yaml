@@ -25,11 +25,17 @@ jobs:
         run: |
           ls -l /cvmfs/fermilab.opensciencegrid.org/products/artdaq/artdaq_spack
 
-      - name: Check out the repo
+      - name: Check out the daq-docker repo
         uses: actions/checkout@main
         with:
           repository: art-daq/daq-docker
           path: daq-docker 
+
+      - name: Check out the otsdaq repo
+        uses: actions/checkout@main
+        with:
+          repository: art-daq/otsdaq
+          path: otsdaq 
       
       - name: Log in to Docker Hub
         uses: docker/login-action@master
@@ -56,13 +62,20 @@ jobs:
             type=ref,event=branch
             type=ref,event=tag
 
+      - name: Get otsdaq tag
+        id: otsver
+        run: |
+          cd ${{ github.workspace }}/otsdaq
+          otsver=v`grep "project" CMakeLists.txt|grep -oE "VERSION [^)]*"|awk '{print $2}'|sed 's/\./_/g'`
+          echo "otsver=${otsver}" >> $GITHUB_OUTPUT
+
       - name: prepare build dir
         run: |
           build_dir="${{ github.workspace }}/docker-build"
           mkdir -p $build_dir
           cd $build_dir
           cp ${{ github.workspace }}/daq-docker/dockerfiles/otsdaq-spack.dockerfile $build_dir/Dockerfile
-          rsync -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ $build_dir/spack_areas
+          rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-${{ steps.otsver.outputs.otsver }}/ $build_dir/spack_areas/ots-${{ steps.otsver.outputs.otsver }}
       
       - name: Build and push Docker images
         uses: docker/build-push-action@master
@@ -71,4 +84,5 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: OTSVER=${{ steps.otsver.outputs.otsver }}
           
