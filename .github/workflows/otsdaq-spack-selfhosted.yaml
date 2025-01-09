@@ -23,7 +23,7 @@ jobs:
     steps:     
       - name: Test CVMFS
         run: |
-          ls -l /cvmfs/fermilab.opensciencegrid.org/products/artdaq/artdaq_spack
+          ls -l /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
 
       - name: Check out the daq-docker repo
         uses: actions/checkout@main
@@ -77,6 +77,9 @@ jobs:
           cp ${{ github.workspace }}/daq-docker/dockerfiles/otsdaq-spack.dockerfile $build_dir/Dockerfile
           rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-${{ steps.otsver.outputs.otsver }}/ $build_dir/spack_areas/ots-${{ steps.otsver.outputs.otsver }}
       
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@master
+        
       - name: Build and push Docker images
         uses: docker/build-push-action@master
         with:
