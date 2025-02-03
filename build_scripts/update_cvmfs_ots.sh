@@ -3,7 +3,7 @@ cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
 
 git config --global --add safe.directory '*'
 
-otsVer=${1:-v2_09_01}
+otsVer=${1:-v2_10_00}
 
 function cleanup() {
     (
