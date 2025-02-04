@@ -19,3 +19,5 @@ touch .cvmfscatalog
 rm art-suite-spack-start.sh;wget https://raw.githubusercontent.com/art-daq/artdaq_demo/refs/heads/develop/tools/art-suite-spack-start.sh && chmod +x art-suite-spack-start.sh
 ./art-suite-spack-start.sh --padding --no-view -s $artVer --arch linux-almalinux9-x86_64_v3
 cleanup
+
+git config --global --unset-all safe.directory

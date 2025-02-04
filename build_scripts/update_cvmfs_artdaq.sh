@@ -20,3 +20,5 @@ touch .cvmfscatalog
 rm quick-spack-start.sh*;wget https://raw.githubusercontent.com/art-daq/artdaq_demo/refs/heads/develop/tools/quick-spack-start.sh && chmod +x quick-spack-start.sh
 ./quick-spack-start.sh --tag $artdaqVer --padding --no-kmod --no-view --arch linux-almalinux9-x86_64_v3
 cleanup
+
+git config --global --unset-all safe.directory

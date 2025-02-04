@@ -21,3 +21,5 @@ touch .cvmfscatalog
 rm mu2e-quick-spack-start.sh*;wget https://raw.githubusercontent.com/Mu2e/otsdaq_mu2e/refs/heads/develop/tools/mu2e-quick-spack-start.sh && chmod +x mu2e-quick-spack-start.sh
 ./mu2e-quick-spack-start.sh --padding --no-kmod --no-view --arch linux-almalinux9-x86_64_v3 --tag $mu2eVer
 cleanup
+
+git config --global --unset-all safe.directory
