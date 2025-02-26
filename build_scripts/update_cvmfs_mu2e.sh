@@ -3,7 +3,8 @@ cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
 
 git config --global --add safe.directory '*'
 
-mu2eVer=${1:-v3_03_01}
+mu2eVer=${1:-v3_04_00}
+force=${2:-0}
 
 function cleanup() {
     (
@@ -14,12 +15,22 @@ function cleanup() {
     )
 }
 
-echo "Building mu2e-tdaq-$mu2eVer"
+if [ $force -eq 1 ] || ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/mu2e-tdaq-$mu2eVer ];then
+  echo "Building mu2e-tdaq-$mu2eVer"
+  cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
+  mkdir mu2e-tdaq-$mu2eVer;cd mu2e-tdaq-$mu2eVer
+  touch .cvmfscatalog
+  rm mu2e-quick-spack-start.sh*;wget https://raw.githubusercontent.com/Mu2e/otsdaq_mu2e/refs/heads/develop/tools/mu2e-quick-spack-start.sh && chmod +x mu2e-quick-spack-start.sh
+  ./mu2e-quick-spack-start.sh --padding --no-kmod --no-view --arch linux-almalinux9-x86_64_v3 --tag $mu2eVer
+  cleanup
+fi
+
+echo "Building mu2e-tdaq-develop"
 cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
-mkdir mu2e-tdaq-$mu2eVer;cd mu2e-tdaq-$mu2eVer
+mkdir mu2e-tdaq-develop;cd mu2e-tdaq-develop
 touch .cvmfscatalog
 rm mu2e-quick-spack-start.sh*;wget https://raw.githubusercontent.com/Mu2e/otsdaq_mu2e/refs/heads/develop/tools/mu2e-quick-spack-start.sh && chmod +x mu2e-quick-spack-start.sh
-./mu2e-quick-spack-start.sh --padding --no-kmod --no-view --arch linux-almalinux9-x86_64_v3 --tag $mu2eVer
+./mu2e-quick-spack-start.sh --padding --no-kmod --arch linux-almalinux9-x86_64_v3 --develop --trigger
 cleanup
 
 git config --global --unset-all safe.directory
