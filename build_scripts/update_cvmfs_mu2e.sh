@@ -30,7 +30,7 @@ cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
 mkdir mu2e-tdaq-develop;cd mu2e-tdaq-develop
 touch .cvmfscatalog
 rm mu2e-quick-spack-start.sh*;wget https://raw.githubusercontent.com/Mu2e/otsdaq_mu2e/refs/heads/develop/tools/mu2e-quick-spack-start.sh && chmod +x mu2e-quick-spack-start.sh
-./mu2e-quick-spack-start.sh --padding --no-kmod --arch linux-almalinux9-x86_64_v3 --develop --trigger
+./mu2e-quick-spack-start.sh --padding --no-kmod --arch linux-almalinux9-x86_64_v3 --develop --trigger --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/mu2e-tdaq-$mu2eVer
 cleanup
 
 git config --global --unset-all safe.directory
