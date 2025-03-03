@@ -50,7 +50,7 @@ docker run -it --rm \
            -e artVer=$artVer \
            -e artdaqVer=$artdaqVer \
            -e otsVer=$otsVer \
-           -e mu2eVer=mu2eVer \
+           -e mu2eVer=$mu2eVer \
            -e force=$forceMu2eBuild \
            -v ./build_scripts:/opt/build_scripts \
            -v ./spack_areas:/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas \
