@@ -15,6 +15,10 @@ forceArtdaqBuild=0
 forceOtsBuild=0
 forceMu2eBuild=0
 
+developArtdaqBuild=0
+developOtsBuild=0
+developMu2eBuild=0
+
 if [ $doArtBuild -eq 1 ];then
 docker run -it --rm \
            -e artVer=$artVer \
@@ -29,6 +33,7 @@ docker run -it --rm \
            -e artVer=$artVer \
            -e artdaqVer=$artdaqVer \
            -e force=$forceArtdaqBuild \
+	   -e develop=$developArtdaqBuild \
            -v ./build_scripts:/opt/build_scripts \
            -v ./spack_areas:/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas \
            eflumerf/alma9-spack:latest /opt/build_scripts/update_cvmfs_artdaq.sh
@@ -40,6 +45,7 @@ docker run -it --rm \
            -e artdaqVer=$artdaqVer \
            -e otsVer=$otsVer \
            -e force=$forceOtsBuild \
+	   -e develop=$developOtsBuild \
            -v ./build_scripts:/opt/build_scripts \
            -v ./spack_areas:/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas \
            eflumerf/alma9-spack:latest /opt/build_scripts/update_cvmfs_ots.sh
@@ -52,6 +58,7 @@ docker run -it --rm \
            -e otsVer=$otsVer \
            -e mu2eVer=$mu2eVer \
            -e force=$forceMu2eBuild \
+	   -e develop=$developMu2eBuild \
            -v ./build_scripts:/opt/build_scripts \
            -v ./spack_areas:/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas \
            eflumerf/alma9-spack:latest /opt/build_scripts/update_cvmfs_mu2e.sh

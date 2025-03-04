@@ -7,6 +7,7 @@ artVer=${artVer:-s132}
 artdaqVer=${artdaqVer:-v3_16_00}
 otsVer=${otsVer:-v2_10_00}
 force=${force:-0}
+develop=${develop:-0}
 
 function cleanup() {
     (
@@ -29,15 +30,17 @@ if [ $force -eq 1 ] || ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artda
   cleanup
 fi
 
-echo "Building ots-develop"
-cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
-mkdir ots-develop;cd ots-develop
-touch .cvmfscatalog
-rm ots-quick-spack-start.sh*;wget https://raw.githubusercontent.com/art-daq/otsdaq_demo/refs/heads/develop/tools/ots-quick-spack-start.sh && chmod +x ots-quick-spack-start.sh
-./ots-quick-spack-start.sh --develop --no-kmod --arch linux-almalinux9-x86_64_v3 \
-                           --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-$otsVer \
-                           --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-$artdaqVer \
-                           --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/art-suite-$artVer
-cleanup
+if [ $develop -eq 1 ];then
+    echo "Building ots-develop"
+    cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
+    mkdir ots-develop;cd ots-develop
+    touch .cvmfscatalog
+    rm ots-quick-spack-start.sh*;wget https://raw.githubusercontent.com/art-daq/otsdaq_demo/refs/heads/develop/tools/ots-quick-spack-start.sh && chmod +x ots-quick-spack-start.sh
+    ./ots-quick-spack-start.sh --develop --no-kmod --arch linux-almalinux9-x86_64_v3 \
+                               --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-$otsVer \
+                               --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-$artdaqVer \
+                               --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/art-suite-$artVer
+    cleanup
+fi
 
 git config --global --unset-all safe.directory
