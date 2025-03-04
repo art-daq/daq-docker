@@ -1,14 +1,14 @@
 #!/bin/bash
 
 artVer=s132
-artdaqVer=v3_16_00
-otsVer=v2_10_00
+artdaqVer=v4_00_00
+otsVer=v3_00_00
 mu2eVer=v3_04_00
 
 doArtBuild=1
 doArtdaqBuild=1
 doOtsBuild=1
-doMu2eBuild=1
+doMu2eBuild=0
 
 forceArtBuild=0
 forceArtdaqBuild=0
