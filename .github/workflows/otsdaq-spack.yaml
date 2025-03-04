@@ -40,8 +40,15 @@ jobs:
           sudo chmod -R go-rwx /var/lib/cvmfs
       
       - name: Test CVMFS
+        id: cvmfsdirs
         run: |
           ls -l /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
+          art=`ls /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/art-suite-*|tail -1|sed 's|.*||g'`
+          artdaq=`ls /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-*|tail -1|sed 's|.*||g'`
+          ots=`ls /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-*|tail -1|sed 's|.*||g'`
+          echo "art=${art}" >> $GITHUB_OUTPUT
+          echo "artdaq=${artdaq}" >> $GITHUB_OUTPUT
+          echo "ots=${ots}" >> $GITHUB_OUTPUT
 
       - name: Delete huge unnecessary tools folder
         run: rm -rf /opt/hostedtoolcache
@@ -51,13 +58,7 @@ jobs:
         with:
           repository: art-daq/daq-docker
           path: daq-docker 
-
-      - name: Check out the otsdaq repo
-        uses: actions/checkout@main
-        with:
-          repository: art-daq/otsdaq
-          path: otsdaq 
-       
+          
       - name: Log in to Docker Hub
         uses: docker/login-action@master
         with:
@@ -82,21 +83,16 @@ jobs:
             type=raw,value=latest
             type=ref,event=branch
             type=ref,event=tag
-
-      - name: Get otsdaq tag
-        id: otsver
-        run: |
-          cd ${{ github.workspace }}/otsdaq
-          otsver=v`grep "project" CMakeLists.txt|grep -oE "VERSION [^)]*"|awk '{print $2}'|sed 's/\./_/g'`
-          echo "otsver=${otsver}" >> $GITHUB_OUTPUT
-
+            
       - name: prepare build dir
         run: |
           build_dir="${{ github.workspace }}/docker-build"
           mkdir -p $build_dir
           cd $build_dir
           cp ${{ github.workspace }}/daq-docker/dockerfiles/otsdaq-spack.dockerfile $build_dir/Dockerfile
-          rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-${{ steps.otsver.outputs.otsver }}/ $build_dir/spack_areas/ots-${{ steps.otsver.outputs.otsver }}
+          rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/${{ steps.cvmfsdirs.outputs.art }}/ $build_dir/spack_areas/${{ steps.cvmfsdirs.outputs.art }}
+          rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/${{ steps.cvmfsdirs.outputs.artdaq }}/ $build_dir/spack_areas/${{ steps.cvmfsdirs.outputs.artdaq }}
+          rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/${{ steps.cvmfsdirs.outputs.ots }}/ $build_dir/spack_areas/${{ steps.cvmfsdirs.outputs.ots }}
       
       - name: Build and push Docker images
         uses: docker/build-push-action@master
@@ -105,7 +101,10 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: OTSVER=${{ steps.otsver.outputs.otsver }}
+          build-args: |
+            ART_AREA=${{ steps.cvmfsdirs.outputs.art }}
+            ARTDAQ_AREA=${{ steps.cvmfsdirs.outputs.artdaq }}
+            OTS_AREA=${{ steps.cvmfsdirs.outputs.ots }}
           
       - name: change dir permission again
         run: |

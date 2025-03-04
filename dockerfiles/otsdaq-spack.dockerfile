@@ -4,28 +4,28 @@ FROM eflumerf/alma9-spack:latest AS intermediate
 
 SHELL ["/bin/bash", "-c"]
 
-ARG OTSVER=v3_00_00
-ARG ARTDAQVER=v4_00_00
-ARG ARTVER=s132
+ARG OTS_AREA=ots-v3_00_00
+ARG ARTDAQ_AREA=artdaq-v4_00_00
+ARG ART_AREA=art-suite-s132
 
 WORKDIR /opt/otsdaq
 
 ADD https://raw.githubusercontent.com/art-daq/otsdaq_demo/develop/tools/ots-quick-spack-start.sh /opt/otsdaq/ots-quick-spack-start.sh
 
-RUN mkdir -p /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/art-suite-$ARTVER
-COPY spack_areas/art-suite-$ARTVER /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/art-suite-$ARTVER
+RUN mkdir -p /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/$ART_AREA
+COPY spack_areas/$ART_AREA /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/$ART_AREA
 
-RUN mkdir -p /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-$ARTDAQVER
-COPY spack_areas/artdaq-$ARTDAQVER /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-$ARTDAQVER
+RUN mkdir -p /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/$ARTDAQ_AREA
+COPY spack_areas/$ARTDAQ_AREA /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/$ARTDAQ_AREA
 
-RUN mkdir -p /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-$OTSVER
-COPY spack_areas/ots-$OTSVER /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-$OTSVER
+RUN mkdir -p /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/$OTS_AREA
+COPY spack_areas/$OTS_AREA /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/$OTS_AREA
 
 RUN chmod +x /opt/otsdaq/ots-quick-spack-start.sh && \
     ./ots-quick-spack-start.sh --develop --dev-only --no-kmod --arch linux-almalinux9-x86_64_v3 \
-                               --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-$OTSVER \
-                               --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-$ARTDAQVER \
-                               --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/art-suite-$ARTVER
+                               --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/$OTS_AREA \
+                               --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/$ARTDAQ_AREA \
+                               --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/$ART_AREA
 
 RUN source setup-env.sh && spack env activate ots-develop
 

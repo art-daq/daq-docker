@@ -22,21 +22,22 @@ jobs:
       contents: read
     steps:   
       - name: Test CVMFS
+        id: cvmfsdirs
         run: |
           ls -l /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
+          art=`ls /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/art-suite-*|tail -1|sed 's|.*||g'`
+          artdaq=`ls /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-*|tail -1|sed 's|.*||g'`
+          ots=`ls /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-*|tail -1|sed 's|.*||g'`
+          echo "art=${art}" >> $GITHUB_OUTPUT
+          echo "artdaq=${artdaq}" >> $GITHUB_OUTPUT
+          echo "ots=${ots}" >> $GITHUB_OUTPUT
 
       - name: Check out the daq-docker repo
         uses: actions/checkout@main
         with:
           repository: art-daq/daq-docker
           path: daq-docker 
-
-      - name: Check out the artdaq repo
-        uses: actions/checkout@main
-        with:
-          repository: art-daq/artdaq
-          path: artdaq 
-      
+                
       - name: Log in to Docker Hub
         uses: docker/login-action@master
         with:
@@ -62,21 +63,15 @@ jobs:
             type=raw,value=latest
             type=ref,event=branch
             type=ref,event=tag
-
-      - name: Get artdaq tag
-        id: artdaqver
-        run: |
-          cd ${{ github.workspace }}/artdaq
-          artdaqver=v`grep "project" CMakeLists.txt|grep -oE "VERSION [^)]*"|awk '{print $2}'|sed 's/\./_/g'`
-          echo "artdaqver=${artdaqver}" >> $GITHUB_OUTPUT
-
+            
       - name: prepare build dir
         run: |
           build_dir="${{ github.workspace }}/docker-build"
           mkdir -p $build_dir
           cd $build_dir
           cp ${{ github.workspace }}/daq-docker/dockerfiles/artdaq-spack.dockerfile $build_dir/Dockerfile
-          rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-${{ steps.artdaqver.outputs.artdaqver }}/ $build_dir/spack_areas/artdaq-${{ steps.artdaqver.outputs.artdaqver }}
+          rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/${{ steps.cvmfsdirs.outputs.art }}/ $build_dir/spack_areas/${{ steps.cvmfsdirs.outputs.art }}
+          rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/${{ steps.cvmfsdirs.outputs.artdaq }}/ $build_dir/spack_areas/${{ steps.cvmfsdirs.outputs.artdaq }}
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@master
@@ -88,5 +83,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: ARTDAQVER=${{ steps.artdaqver.outputs.artdaqver }}
+          build-args: |
+            ART_AREA=${{ steps.cvmfsdirs.outputs.art }}
+            ARTDAQ_AREA=${{ steps.cvmfsdirs.outputs.artdaq }}
           
