@@ -43,9 +43,9 @@ jobs:
         id: cvmfsdirs
         run: |
           ls -l /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
-          art=`ls /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/art-suite-*|tail -1|sed 's|.*||g'`
-          artdaq=`ls /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-*|tail -1|sed 's|.*||g'`
-          ots=`ls /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-*|tail -1|sed 's|.*||g'`
+          art=`ls /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/art-suite-*|tail -1|sed 's|.*/||g'`
+          artdaq=`ls /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-*|tail -1|sed 's|.*/||g'`
+          ots=`ls /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-*|tail -1|sed 's|.*/||g'`
           echo "art=${art}" >> $GITHUB_OUTPUT
           echo "artdaq=${artdaq}" >> $GITHUB_OUTPUT
           echo "ots=${ots}" >> $GITHUB_OUTPUT
