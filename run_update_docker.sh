@@ -3,12 +3,13 @@
 artVer=s132
 artdaqVer=v4_00_00
 otsVer=v3_00_00
-mu2eVer=v3_04_00
+mu2eVer=v4_00_00
 
 doArtBuild=1
 doArtdaqBuild=1
 doOtsBuild=1
-doMu2eBuild=0
+doMu2eBuild=1
+update_cvmfs=1
 
 forceArtBuild=0
 forceArtdaqBuild=0
@@ -64,8 +65,9 @@ docker run -it --rm \
            eflumerf/alma9-spack:latest /opt/build_scripts/update_cvmfs_mu2e.sh
 fi
 
-rsync -ax --delete --progress spack_areas/ artdaq@artdaqgpvm01:/grid/fermiapp/products/artdaq/spack_areas/
-
-ssh artdaq@artdaqgpvm01 ./update_cvmfs.sh
+if [ $update_cvmfs -eq 1 ];then
+    rsync -ax --delete --progress spack_areas/ artdaq@artdaqgpvm01:/grid/fermiapp/products/artdaq/spack_areas/
+    ssh artdaq@artdaqgpvm01 ./update_cvmfs.sh
+fi
 
 echo "DONE"
