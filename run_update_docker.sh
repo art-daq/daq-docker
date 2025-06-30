@@ -1,9 +1,9 @@
 #!/bin/bash
 
 artVer=s132
-artdaqVer=v4_01_00
-otsVer=v3_01_00
-mu2eVer=v5_00_00
+artdaqVer=v4_02_00
+otsVer=v3_02_00
+mu2eVer=v7_00_00_cand
 
 doArtBuild=1
 doArtdaqBuild=1
@@ -19,6 +19,9 @@ forceMu2eBuild=0
 developArtdaqBuild=0
 developOtsBuild=0
 developMu2eBuild=0
+
+docker pull eflumerf/alma9-spack:latest
+rsync -ax --progress /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ spack_areas/
 
 if [ $doArtBuild -eq 1 ];then
 docker run -it --rm \
@@ -66,7 +69,7 @@ docker run -it --rm \
 fi
 
 if [ $update_cvmfs -eq 1 ];then
-    rsync -ax --delete --progress spack_areas/ artdaq@artdaqgpvm01:/grid/fermiapp/products/artdaq/spack_areas/
+    rsync -ax --progress spack_areas/ artdaq@artdaqgpvm01:/grid/fermiapp/products/artdaq/spack_areas/
     ssh artdaq@artdaqgpvm01 ./update_cvmfs.sh
 fi
 
