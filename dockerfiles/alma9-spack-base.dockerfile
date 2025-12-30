@@ -32,5 +32,7 @@ RUN dnf install -y kernel-devel asciidoc bzip2 bzip2-devel bzip2-libs compat-ope
                    xz-devel zip binutils-devel doxygen jq \
 && dnf clean all
 
+RUN dnf install -y https://repo.mongodb.org/yum/redhat/9/mongodb-org/7.0/x86_64/RPMS/mongodb-org-server-7.0.28-1.el9.x86_64.rpm && dnf clean all
+
 
 ENTRYPOINT ["/bin/bash"]
