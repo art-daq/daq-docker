@@ -27,7 +27,8 @@ RUN chmod +x /opt/otsdaq/ots-quick-spack-start.sh && \
                                --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/$ARTDAQ_AREA \
                                --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/$ART_AREA
 
-RUN source setup-env.sh && spack env activate ots-develop && spack clean -a
+# Create setup_ots_rte.sh
+RUN rm setup_ots_rte.sh && source setup_ots.sh && spack clean -a
 
 RUN rm -rf /cvmfs/fermilab.opensciencegrid.org/products
 
