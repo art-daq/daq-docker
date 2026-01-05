@@ -1,9 +1,9 @@
 #!/bin/bash
 
 artVer=s132
-artdaqVer=v4_03_01
-otsVer=v3_03_01
-mu2eVer=v8_00_00_cand
+artdaqVer=v4_04_01
+otsVer=v3_04_00
+mu2eVer=v8_00_00
 
 doArtBuild=1
 doArtdaqBuild=1
@@ -22,7 +22,7 @@ developOtsBuild=0
 developMu2eBuild=0
 
 docker pull eflumerf/alma9-spack:latest
-if [ $updateLocal -eq 1 ];then
+if [ $update_local -eq 1 ];then
   rsync -ax --progress /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ spack_areas/
 fi
 
