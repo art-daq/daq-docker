@@ -2,8 +2,8 @@
 
 artVer=s132
 artdaqVer=v4_04_01
-otsVer=v3_04_00
-mu2eVer=v8_00_00
+otsVer=v3_04_01
+mu2eVer=v9_00_00
 
 doArtBuild=1
 doArtdaqBuild=1
@@ -15,7 +15,7 @@ update_cvmfs=1
 forceArtBuild=0
 forceArtdaqBuild=0
 forceOtsBuild=0
-forceMu2eBuild=0
+forceMu2eBuild=1
 
 developArtdaqBuild=0
 developOtsBuild=0
