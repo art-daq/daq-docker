@@ -71,8 +71,8 @@ jobs:
           mkdir -p $build_dir
           cd $build_dir
           cp ${{ github.workspace }}/daq-docker/dockerfiles/artdaq-spack.dockerfile $build_dir/Dockerfile
-          rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/${{ steps.cvmfsdirs.outputs.art }}/ $build_dir/spack_areas/${{ steps.cvmfsdirs.outputs.art }}
-          rsync --mkpath --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/${{ steps.cvmfsdirs.outputs.artdaq }}/ $build_dir/spack_areas/${{ steps.cvmfsdirs.outputs.artdaq }}
+          rsync --mkpath --progress --delete -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/${{ steps.cvmfsdirs.outputs.art }}/ $build_dir/spack_areas/${{ steps.cvmfsdirs.outputs.art }}
+          rsync --mkpath --progress --delete -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/${{ steps.cvmfsdirs.outputs.artdaq }}/ $build_dir/spack_areas/${{ steps.cvmfsdirs.outputs.artdaq }}
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@master
