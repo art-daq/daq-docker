@@ -9,13 +9,13 @@ doArtBuild=1
 doArtdaqBuild=1
 doOtsBuild=1
 doMu2eBuild=1
-update_local=1
-update_cvmfs=1
+update_local=0
+update_cvmfs=0
 
 forceArtBuild=0
 forceArtdaqBuild=0
 forceOtsBuild=0
-forceMu2eBuild=1
+forceMu2eBuild=0
 
 developArtdaqBuild=0
 developOtsBuild=0
