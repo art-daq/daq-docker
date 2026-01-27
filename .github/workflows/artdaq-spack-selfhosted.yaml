@@ -20,14 +20,19 @@ jobs:
     permissions:
       packages: write
       contents: read
-    steps:   
+    strategy:
+      max-parallel: 1
+      matrix:
+        os: [ '9', '10' ]
+        spackVer: [ 'v0.28', 'v1.1' ]
+    steps:
       - name: Test CVMFS
         id: cvmfsdirs
         run: |
-          ls -l /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas
-          art=`ls -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/art-suite-*|tail -1|sed 's|.*/||g'`
-          artdaq=`ls -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/artdaq-*|tail -1|sed 's|.*/||g'`
-          ots=`ls -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/ots-*|tail -1|sed 's|.*/||g'`
+          ls -l /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}
+          art=`ls -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/art-suite-*|tail -1|sed 's|.*/||g'`
+          artdaq=`ls -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/artdaq-*|tail -1|sed 's|.*/||g'`
+          ots=`ls -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/ots-*|tail -1|sed 's|.*/||g'`
           echo "${art} ${artdaq} ${ots}"
           echo "art=${art}" >> $GITHUB_OUTPUT
           echo "artdaq=${artdaq}" >> $GITHUB_OUTPUT
@@ -58,8 +63,8 @@ jobs:
         uses: docker/metadata-action@master
         with:
           images: |
-            eflumerf/artdaq-spack
-            ghcr.io/art-daq/artdaq-spack
+            eflumerf/artdaq-spack${{matrix.spackVer}-al${{matrix.os}}
+            ghcr.io/art-daq/artdaq-spack${{matrix.spackVer}-al${{matrix.os}}
           tags: |
             type=raw,value=latest
             type=ref,event=branch
@@ -71,8 +76,8 @@ jobs:
           mkdir -p $build_dir
           cd $build_dir
           cp ${{ github.workspace }}/daq-docker/dockerfiles/artdaq-spack.dockerfile $build_dir/Dockerfile
-          rsync --mkpath --progress --delete -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/${{ steps.cvmfsdirs.outputs.art }}/ $build_dir/spack_areas/${{ steps.cvmfsdirs.outputs.art }}
-          rsync --mkpath --progress --delete -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_areas/${{ steps.cvmfsdirs.outputs.artdaq }}/ $build_dir/spack_areas/${{ steps.cvmfsdirs.outputs.artdaq }}
+          rsync --mkpath --progress --delete -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.art }}/ $build_dir/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.art }}
+          rsync --mkpath --progress --delete -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.artdaq }}/ $build_dir/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.artdaq }}
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@master
@@ -87,4 +92,6 @@ jobs:
           build-args: |
             ART_AREA=${{ steps.cvmfsdirs.outputs.art }}
             ARTDAQ_AREA=${{ steps.cvmfsdirs.outputs.artdaq }}
+            BASE_IMAGE=eflumerf/alma${{ matrix.os }}-spack:latest
+            SPACK_VERSION=${{ matrix.spackVer }}
           
