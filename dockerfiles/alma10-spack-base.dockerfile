@@ -29,7 +29,7 @@ RUN dnf install -y kernel-devel asciidoc bzip2 bzip2-devel bzip2-libs \
                    python3-setuptools_scm readline-devel rsync tar tcl-devel texinfo tk tk-devel unzip \
                    wget xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel \
                    xcb-util-wm-devel xorg-x11-util-macros xorg-x11-xtrans-devel xxhash xxhash-libs \
-                   xz-devel zip binutils-devel doxygen jq \
+                   xz-devel zip binutils-devel doxygen jq procps-ng \
 && dnf clean all
 
 
