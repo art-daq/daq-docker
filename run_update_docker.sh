@@ -7,7 +7,7 @@ mu2eVer=v10_00_00
 
 doArtBuild=1
 doArtdaqBuild=1
-doOtsBuild=1
+doOtsBuild=0
 doMu2eBuild=0
 update_local=0
 update_cvmfs=0
@@ -17,8 +17,8 @@ forceArtdaqBuild=0
 forceOtsBuild=0
 forceMu2eBuild=0
 
-al9Build=1
-al10Build=1
+al9Build=$(cat /etc/redhat-release|grep -c "release 9")
+al10Build=$(cat /etc/redhat-release|grep -c "release 10")
 
 spack0Build=1
 spack1Build=1
