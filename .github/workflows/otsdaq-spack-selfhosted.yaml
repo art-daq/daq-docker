@@ -24,9 +24,9 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix:
-        os: [ '9', '10' ]
+        os: [ 'alma9', 'alma10' ]
         spackVer: [ 'v0.28', 'v1.1' ]
-    runs-on: [self-hosted, alma-${{ matrix.os }}]
+    runs-on: [self-hosted, "${{ matrix.os }}"]
     steps:
       - name: Test CVMFS
         id: cvmfsdirs
@@ -64,8 +64,8 @@ jobs:
         uses: docker/metadata-action@master
         with:
           images: |
-            eflumerf/otsdaq-spack${{matrix.spackVer}}-al${{matrix.os}}
-            ghcr.io/art-daq/otsdaq-spack${{matrix.spackVer}}-al${{matrix.os}}
+            eflumerf/otsdaq-spack${{matrix.spackVer}}-${{matrix.os}}
+            ghcr.io/art-daq/otsdaq-spack${{matrix.spackVer}}-${{matrix.os}}
           tags: |
             type=raw,value=latest
             type=ref,event=branch
@@ -95,5 +95,5 @@ jobs:
             ART_AREA=${{ steps.cvmfsdirs.outputs.art }}
             ARTDAQ_AREA=${{ steps.cvmfsdirs.outputs.artdaq }}
             OTS_AREA=${{ steps.cvmfsdirs.outputs.ots }}
-            BASE_IMAGE=eflumerf/alma${{ matrix.os }}-spack:latest
+            BASE_IMAGE=eflumerf/${{ matrix.os }}-spack:latest
             SPACK_VERSION=${{ matrix.spackVer }}
