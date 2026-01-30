@@ -20,7 +20,9 @@ jobs:
     permissions:
       packages: write
       contents: read
+    continue-on-error: true
     strategy:
+      fail-fast: false
       max-parallel: 1
       matrix:
         os: [ '9', '10' ]
