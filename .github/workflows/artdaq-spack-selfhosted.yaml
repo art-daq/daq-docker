@@ -42,22 +42,22 @@ jobs:
         uses: actions/checkout@main
         with:
           repository: art-daq/daq-docker
-          path: daq-docker 
-                
+          path: daq-docker
+
       - name: Log in to Docker Hub
         uses: docker/login-action@master
         with:
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
+
       - name: Log in to the Container registry
         uses: docker/login-action@master
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.TOKEN_GHIO }}
-      
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@master
@@ -69,7 +69,7 @@ jobs:
             type=raw,value=latest
             type=ref,event=branch
             type=ref,event=tag
-            
+
       - name: prepare build dir
         run: |
           build_dir="${{ github.workspace }}/docker-build"
@@ -78,10 +78,10 @@ jobs:
           cp ${{ github.workspace }}/daq-docker/dockerfiles/artdaq-spack.dockerfile $build_dir/Dockerfile
           rsync --mkpath --progress --delete -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.art }}/ $build_dir/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.art }}
           rsync --mkpath --progress --delete -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.artdaq }}/ $build_dir/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.artdaq }}
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@master
-        
+
       - name: Build and push Docker images
         uses: docker/build-push-action@master
         with:
@@ -94,4 +94,3 @@ jobs:
             ARTDAQ_AREA=${{ steps.cvmfsdirs.outputs.artdaq }}
             BASE_IMAGE=eflumerf/alma${{ matrix.os }}-spack:latest
             SPACK_VERSION=${{ matrix.spackVer }}
-          

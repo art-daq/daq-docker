@@ -34,7 +34,7 @@ function build_areas() {
     image="eflumerf/alma${osVer}-spack:latest"
 
     docker pull $image
-    
+
     if [ $doArtBuild -eq 1 ];then
         docker run -it --rm \
                    -e artVer=$artVer \
