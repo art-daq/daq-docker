@@ -63,8 +63,8 @@ jobs:
         uses: docker/metadata-action@master
         with:
           images: |
-            eflumerf/artdaq-spack${{matrix.spackVer}-al${{matrix.os}}
-            ghcr.io/art-daq/artdaq-spack${{matrix.spackVer}-al${{matrix.os}}
+            eflumerf/artdaq-spack${{matrix.spackVer}}-al${{matrix.os}}
+            ghcr.io/art-daq/artdaq-spack${{matrix.spackVer}}-al${{matrix.os}}
           tags: |
             type=raw,value=latest
             type=ref,event=branch
