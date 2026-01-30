@@ -1,6 +1,6 @@
 #!/bin/bash
 
-artVer=s132.1
+artVer=s133
 artdaqVer=v4_05_00
 otsVer=v3_05_00
 mu2eVer=v10_00_00
