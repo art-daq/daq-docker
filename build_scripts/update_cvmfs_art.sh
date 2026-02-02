@@ -27,7 +27,9 @@ else
     echo "Build area exists, checking art-suite-$artVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer
     source setup-env.sh
+    echo "activate art-$artVer"
     spack env activate art-$artVer
+    echo "test install"
     spack install &>/dev/null || do_build=1
   fi
 fi
