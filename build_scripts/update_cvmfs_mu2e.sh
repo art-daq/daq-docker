@@ -35,7 +35,6 @@ else
 fi
 
 if [ $do_build -eq 1 ];then
-if [ $force -eq 1 ] || ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer/spack/etc/spack/linux/almalinux${osVer} ];then
   echo "Building mu2e-tdaq-$mu2eVer using Spack $spackVer on Alma$osVer"
   cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
   mkdir mu2e-tdaq-$mu2eVer;cd mu2e-tdaq-$mu2eVer

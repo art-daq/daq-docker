@@ -33,7 +33,6 @@ else
 fi
 
 if [ $do_build -eq 1 ];then
-if [ $force -eq 1 ] || ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer/spack/etc/spack/linux/almalinux${osVer} ];then
     echo "Building artdaq-$artdaqVer using Spack $spackVer on Alma$osVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
     mkdir artdaq-$artdaqVer;cd artdaq-$artdaqVer
