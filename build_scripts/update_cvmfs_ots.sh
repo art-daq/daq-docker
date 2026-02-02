@@ -2,7 +2,7 @@
 
 git config --global --add safe.directory '*'
 
-artVer=${artVer:-s132.1}
+artVer=${artVer:-s133}
 artdaqVer=${artdaqVer:-v4_05_00}
 otsVer=${otsVer:-v3_05_00}
 osVer=${osVer:-9}
@@ -18,7 +18,22 @@ function cleanup() {
     )
 }
 
-if [ $force -eq 1 ] || ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer/spack/etc/spack/linux/almalinux${osVer} ];then
+do_build=${force}
+if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer ]; then
+  do_build=1
+else
+  # Check if the existing build is for the correct OS version
+  if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer/spack/etc/spack/linux/almalinux${osVer} ]; then
+    do_build=1
+  else
+    cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer
+    source setup-env.sh
+    spack env activate ots-$otsVer
+    spack install || do_build=1
+  fi
+fi
+
+if [ $do_build -eq 1 ];then
   echo "Building ots-$otsVer using Spack $spackVer on Alma$osVer"
   cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
   mkdir ots-$otsVer;cd ots-$otsVer

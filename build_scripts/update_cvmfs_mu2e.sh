@@ -2,7 +2,7 @@
 
 git config --global --add safe.directory '*'
 
-artVer=${artVer:-s132.1}
+artVer=${artVer:-s133}
 artdaqVer=${artdaqVer:-v4_05_00}
 otsVer=${otsVer:-v3_05_00}
 mu2eVer=${mu2eVer:-v10_00_00}
@@ -19,6 +19,22 @@ function cleanup() {
     )
 }
 
+do_build=${force}
+if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer ]; then
+  do_build=1
+else
+  # Check if the existing build is for the correct OS version
+  if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer/spack/etc/spack/linux/almalinux${osVer} ]; then
+    do_build=1
+  else
+    cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer
+    source setup-env.sh
+    spack env activate tdaq-$mu2eVer
+    spack install || do_build=1
+  fi
+fi
+
+if [ $do_build -eq 1 ];then
 if [ $force -eq 1 ] || ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer/spack/etc/spack/linux/almalinux${osVer} ];then
   echo "Building mu2e-tdaq-$mu2eVer using Spack $spackVer on Alma$osVer"
   cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
