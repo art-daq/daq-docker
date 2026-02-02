@@ -29,9 +29,12 @@ else
   else
     echo "Build area exists, checking spack_${spackVer}/mu2e-tdaq-$mu2eVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer
+    echo "Setting up Spack"
     source setup-env.sh
+    echo "activate tdaq-$mu2eVer"
     spack env activate tdaq-$mu2eVer
-    spack install &>/dev/null || do_build=1
+    echo "test install"
+    spack find --format '{name}' mu2e-tdaq-suite &>/dev/null || do_build=1
   fi
 fi
 

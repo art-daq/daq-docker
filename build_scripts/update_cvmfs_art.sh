@@ -31,7 +31,7 @@ else
     echo "activate art-$artVer"
     spack env activate art-$artVer
     echo "test install"
-    spack install &>/dev/null || do_build=1
+    spack find --format '{name}' art-suite &>/dev/null || do_build=1
   fi
 fi
 

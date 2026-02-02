@@ -27,9 +27,12 @@ else
   else
     echo "Build area exists, checking spack_${spackVer}/artdaq-$artdaqVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer
+    echo "Setting up Spack"
     source setup-env.sh
+    echo "activate artdaq-$artdaqVer"
     spack env activate artdaq-$artdaqVer
-    spack install &>/dev/null || do_build=1
+    echo "test install"
+    spack find --format '{name}' artdaq-suite &>/dev/null || do_build=1
   fi
 fi
 

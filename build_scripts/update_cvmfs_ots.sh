@@ -28,9 +28,12 @@ else
   else
     echo "Build area exists, checking spack_${spackVer}/ots-$otsVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer
+    echo "Setting up Spack"
     source setup-env.sh
+    echo "activate ots-$otsVer"
     spack env activate ots-$otsVer
-    spack install &>/dev/null || do_build=1
+    echo "test install"
+    spack find --format '{name}' otsdaq-suite &>/dev/null || do_build=1
   fi
 fi
 
