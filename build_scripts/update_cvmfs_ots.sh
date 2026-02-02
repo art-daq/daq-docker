@@ -26,10 +26,11 @@ else
   if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer/spack/etc/spack/linux/almalinux${osVer} ]; then
     do_build=1
   else
+    echo "Build area exists, checking ots-$otsVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer
     source setup-env.sh
     spack env activate ots-$otsVer
-    spack install || do_build=1
+    spack install &>/dev/null || do_build=1
   fi
 fi
 
@@ -44,6 +45,8 @@ if [ $do_build -eq 1 ];then
                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer \
                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer
   cleanup
+else
+  echo "ots-$otsVer is up to date, no build needed"
 fi
 
 git config --global --unset-all safe.directory

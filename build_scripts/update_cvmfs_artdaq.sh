@@ -25,10 +25,11 @@ else
   if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer/spack/etc/spack/linux/almalinux${osVer} ]; then
     do_build=1
   else
+    echo "Build area exists, checking artdaq-$artdaqVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer
     source setup-env.sh
     spack env activate artdaq-$artdaqVer
-    spack install || do_build=1
+    spack install &>/dev/null || do_build=1
   fi
 fi
 
@@ -42,6 +43,8 @@ if [ $do_build -eq 1 ];then
     ./quick-spack-start_${spackVer}.sh --tag $artdaqVer --padding --no-kmod --no-view --arch linux-almalinux9-x86_64_v3 \
                            --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer
     cleanup
+else
+    echo "artdaq-$artdaqVer is up to date, no build needed"
 fi
 
 git config --global --unset-all safe.directory
