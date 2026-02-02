@@ -25,7 +25,7 @@ else
   if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer/spack/etc/spack/linux/almalinux${osVer} ]; then
     do_build=1
   else
-    echo "Build area exists, checking artdaq-$artdaqVer"
+    echo "Build area exists, checking spack_${spackVer}/artdaq-$artdaqVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer
     source setup-env.sh
     spack env activate artdaq-$artdaqVer

@@ -27,7 +27,7 @@ else
   if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer/spack/etc/spack/linux/almalinux${osVer} ]; then
     do_build=1
   else
-    echo "Build area exists, checking mu2e-tdaq-$mu2eVer"
+    echo "Build area exists, checking spack_${spackVer}/mu2e-tdaq-$mu2eVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer
     source setup-env.sh
     spack env activate tdaq-$mu2eVer
