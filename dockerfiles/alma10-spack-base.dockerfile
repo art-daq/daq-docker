@@ -30,6 +30,7 @@ RUN dnf install -y kernel-devel asciidoc bzip2 bzip2-devel bzip2-libs \
                    wget xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel \
                    xcb-util-wm-devel xorg-x11-util-macros xorg-x11-xtrans-devel xxhash xxhash-libs \
                    xz-devel zip binutils-devel doxygen jq procps-ng \
+                   qt5 qt5-qtbase qt5-qtbase-gui qt5-qtbase-devel \
 && dnf clean all
 
 

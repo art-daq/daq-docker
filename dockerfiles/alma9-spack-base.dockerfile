@@ -30,6 +30,7 @@ RUN dnf install -y kernel-devel asciidoc bzip2 bzip2-devel bzip2-libs compat-ope
                    wget xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel \
                    xcb-util-wm-devel xorg-x11-util-macros xorg-x11-xtrans-devel xxhash xxhash-libs \
                    xz-devel zip binutils-devel doxygen jq procps-ng \
+                   qt5 qt5-qtbase qt5-qtbase-gui qt5-qtbase-devel \
 && dnf clean all
 
 RUN dnf install -y https://repo.mongodb.org/yum/redhat/9/mongodb-org/7.0/x86_64/RPMS/mongodb-org-server-7.0.28-1.el9.x86_64.rpm && dnf clean all
