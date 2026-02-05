@@ -34,7 +34,7 @@ else
   else
     echo "Build area exists, checking spack_${spackVer}/artdaq-$artdaqVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer
-    
+
     if [ -f .build_verified ];then
         echo "Build previously verified, skipping Spack find test"
         do_build=0
