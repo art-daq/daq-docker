@@ -26,12 +26,18 @@ else
   else
     echo "Build area exists, checking spack_${spackVer}/art-suite-$artVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer
-    echo "Setting up Spack"
-    source setup-env.sh
-    echo "activate art-$artVer"
-    spack env activate art-$artVer
-    echo "test install"
-    spack find --format '{name}' art-suite &>/dev/null || do_build=1
+
+    if [ -f .build_verified ];then
+        echo "Build previously verified, skipping Spack find test"
+        do_build=0
+    else
+        echo "Setting up Spack"
+        source setup-env.sh
+        echo "activate art-$artVer"
+        spack env activate art-$artVer
+        echo "test install"
+        spack find --format '{name}' art-suite &>/dev/null || do_build=1
+    fi
   fi
 fi
 
@@ -46,6 +52,7 @@ if [ $do_build -eq 1 ];then
   cleanup
 else
   echo "art-suite-$artVer is up to date, no build needed"
+  touch .build_verified
 fi
 
 git config --global --unset-all safe.directory

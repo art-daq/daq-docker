@@ -18,6 +18,13 @@ function cleanup() {
     )
 }
 
+# Check dependency
+if ! [ -f /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-${artdaqVer}/.build_verified ]; then
+    echo "Dependency artdaq-${artdaqVer} not built; please run update_cvmfs_artdaq.sh first."
+    git config --global --unset-all safe.directory
+    exit 1
+fi
+
 do_build=${force}
 if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer ]; then
   do_build=1
@@ -28,12 +35,18 @@ else
   else
     echo "Build area exists, checking spack_${spackVer}/ots-$otsVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer
-    echo "Setting up Spack"
-    source setup-env.sh
-    echo "activate ots-$otsVer"
-    spack env activate ots-$otsVer
-    echo "test install"
-    spack find --format '{name}' otsdaq-suite &>/dev/null || do_build=1
+
+    if [ -f .build_verified ];then
+        echo "Build previously verified, skipping Spack find test"
+        do_build=0
+    else
+        echo "Setting up Spack"
+        source setup-env.sh
+        echo "activate ots-$otsVer"
+        spack env activate ots-$otsVer
+        echo "test install"
+        spack find --format '{name}' otsdaq-suite &>/dev/null || do_build=1
+    fi
   fi
 fi
 
@@ -50,6 +63,7 @@ if [ $do_build -eq 1 ];then
   cleanup
 else
   echo "ots-$otsVer is up to date, no build needed"
+  touch .build_verified
 fi
 
 git config --global --unset-all safe.directory
