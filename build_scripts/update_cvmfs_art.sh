@@ -16,16 +16,14 @@ function cleanup() {
     )
 }
 
+dir=/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer-al${osVer}
+
 do_build=${force}
-if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer ]; then
+if ! [ -d $dir ]; then
   do_build=1
 else
-  # Check if the existing build is for the correct OS version
-  if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer/spack/etc/spack/linux/almalinux${osVer} ]; then
-    do_build=1
-  else
-    echo "Build area exists, checking spack_${spackVer}/art-suite-$artVer"
-    cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer
+    echo "Build area exists, checking spack_${spackVer}/art-suite-$artVer-al${osVer}"
+    cd $dir
 
     if [ -f .build_verified ];then
         echo "Build previously verified, skipping Spack find test"
@@ -33,25 +31,24 @@ else
     else
         echo "Setting up Spack"
         source setup-env.sh
-        echo "activate art-$artVer"
-        spack env activate art-$artVer
+        echo "activate art-$artVer-al${osVer}"
+        spack env activate art-$artVer-al${osVer}
         echo "test install"
         spack find --format '{name}' art-suite &>/dev/null || do_build=1
     fi
-  fi
 fi
 
 if [ $do_build -eq 1 ];then
   echo "Building art-suite-$artVer using Spack $spackVer on Alma$osVer"
   cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
-  mkdir art-suite-$artVer;cd art-suite-$artVer
+  mkdir art-suite-$artVer-al$osVer;cd art-suite-$artVer-al$osVer
   touch .cvmfscatalog
   rm art-suite-spack-start_${spackVer}.sh
   wget https://raw.githubusercontent.com/art-daq/artdaq_demo/refs/heads/develop/tools/art-suite-spack-start_${spackVer}.sh && chmod +x art-suite-spack-start_${spackVer}.sh
   ./art-suite-spack-start_${spackVer}.sh --padding --no-view -s ${artVer:1} --arch linux-almalinux${osVer}-x86_64_v3
   cleanup
 else
-  echo "art-suite-$artVer is up to date, no build needed"
+  echo "art-suite-$artVer-al${osVer} is up to date, no build needed"
   touch .build_verified
 fi
 

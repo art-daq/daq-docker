@@ -20,22 +20,18 @@ function cleanup() {
 }
 
 # Check dependency
-if ! [ -f /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer/.build_verified ]; then
-    echo "Dependency ots-$otsVer not built; please run update_cvmfs_ots.sh first."
+if ! [ -f /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer-al${osVer}/.build_verified ]; then
+    echo "Dependency ots-$otsVer-al${osVer} not built; please run update_cvmfs_ots.sh first."
     git config --global --unset-all safe.directory
     exit 1
 fi
 
 do_build=${force}
-if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer ]; then
+if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer-al${osVer} ]; then
   do_build=1
 else
-  # Check if the existing build is for the correct OS version
-  if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer/spack/etc/spack/linux/almalinux${osVer} ]; then
-    do_build=1
-  else
-    echo "Build area exists, checking spack_${spackVer}/mu2e-tdaq-$mu2eVer"
-    cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer
+    echo "Build area exists, checking spack_${spackVer}/mu2e-tdaq-$mu2eVer-al${osVer}"
+    cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer-al${osVer}
 
     if [ -f .build_verified ];then
         echo "Build previously verified, skipping Spack find test"
@@ -43,28 +39,27 @@ else
     else
         echo "Setting up Spack"
         source setup-env.sh
-        echo "activate tdaq-$mu2eVer"
-        spack env activate tdaq-$mu2eVer
+        echo "activate tdaq-$mu2eVer-al${osVer}"
+        spack env activate tdaq-$mu2eVer-al${osVer}
         echo "test install"
         spack find --format '{name}' mu2e-tdaq-suite &>/dev/null || do_build=1
     fi
-  fi
 fi
 
 if [ $do_build -eq 1 ];then
   echo "Building mu2e-tdaq-$mu2eVer using Spack $spackVer on Alma$osVer"
   cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
-  mkdir mu2e-tdaq-$mu2eVer;cd mu2e-tdaq-$mu2eVer
+  mkdir mu2e-tdaq-$mu2eVer-al${osVer};cd mu2e-tdaq-$mu2eVer-al${osVer}
   touch .cvmfscatalog
   rm mu2e-quick-spack-start_${spackVer}.sh*
   wget https://raw.githubusercontent.com/Mu2e/otsdaq_mu2e/refs/heads/develop/tools/mu2e-quick-spack-start_${spackVer}.sh && chmod +x mu2e-quick-spack-start_${spackVer}.sh
   ./mu2e-quick-spack-start_${spackVer}.sh --padding --no-kmod --no-emacs --no-view --arch linux-almalinux9-x86_64_v3 --tag $mu2eVer \
-                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer \
-                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer \
-                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer
+                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer-al${osVer} \
+                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer-al${osVer} \
+                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer-al${osVer}
   cleanup
 else
-  echo "mu2e-tdaq-$mu2eVer is up to date, no build needed"
+  echo "mu2e-tdaq-$mu2eVer-al${osVer} is up to date, no build needed"
   touch .build_verified
 fi
 
