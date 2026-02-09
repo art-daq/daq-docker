@@ -42,6 +42,7 @@ else
         spack env activate ots-$otsVer-al${osVer}
         echo "test install"
         spack find --format '{name}' otsdaq-suite &>/dev/null || do_build=1
+        spack env deactivate
     fi
 fi
 

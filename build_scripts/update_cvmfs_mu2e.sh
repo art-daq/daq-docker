@@ -43,6 +43,7 @@ else
         spack env activate tdaq-$mu2eVer-al${osVer}
         echo "test install"
         spack find --format '{name}' mu2e-tdaq-suite &>/dev/null || do_build=1
+        spack env deactivate
     fi
 fi
 

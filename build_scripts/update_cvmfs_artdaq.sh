@@ -41,6 +41,7 @@ else
         spack env activate artdaq-$artdaqVer-al${osVer}
         echo "test install"
         spack find --format '{name}' artdaq-suite &>/dev/null || do_build=1
+        spack env deactivate
     fi
 fi
 

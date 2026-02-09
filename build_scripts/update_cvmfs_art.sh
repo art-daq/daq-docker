@@ -35,6 +35,7 @@ else
         spack env activate art-$artVer-al${osVer}
         echo "test install"
         spack find --format '{name}' art-suite &>/dev/null || do_build=1
+        spack env deactivate
     fi
 fi
 
