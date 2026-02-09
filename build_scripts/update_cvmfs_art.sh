@@ -42,7 +42,8 @@ fi
 if [ $do_build -eq 1 ];then
   echo "Building art-suite-$artVer using Spack $spackVer on Alma$osVer"
   cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
-  mkdir art-suite-$artVer-al$osVer;cd art-suite-$artVer-al$osVer
+  mkdir art-suite-$artVer-al$osVer
+  cd art-suite-$artVer-al$osVer
   touch .cvmfscatalog
   rm art-suite-spack-start_${spackVer}.sh
   wget https://raw.githubusercontent.com/art-daq/artdaq_demo/refs/heads/develop/tools/art-suite-spack-start_${spackVer}.sh && chmod +x art-suite-spack-start_${spackVer}.sh

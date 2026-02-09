@@ -50,7 +50,8 @@ fi
 if [ $do_build -eq 1 ];then
   echo "Building mu2e-tdaq-$mu2eVer using Spack $spackVer on Alma$osVer"
   cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
-  mkdir mu2e-tdaq-$mu2eVer-al${osVer};cd mu2e-tdaq-$mu2eVer-al${osVer}
+  mkdir mu2e-tdaq-$mu2eVer-al${osVer}
+  cd mu2e-tdaq-$mu2eVer-al${osVer}
   touch .cvmfscatalog
   rm mu2e-quick-spack-start_${spackVer}.sh*
   wget https://raw.githubusercontent.com/Mu2e/otsdaq_mu2e/refs/heads/develop/tools/mu2e-quick-spack-start_${spackVer}.sh && chmod +x mu2e-quick-spack-start_${spackVer}.sh

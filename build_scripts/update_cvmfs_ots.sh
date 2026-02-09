@@ -49,7 +49,8 @@ fi
 if [ $do_build -eq 1 ];then
   echo "Building ots-$otsVer-al${osVer} using Spack $spackVer on Alma$osVer"
   cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
-  mkdir ots-$otsVer-al${osVer};cd ots-$otsVer-al${osVer}
+  mkdir ots-$otsVer-al${osVer}
+  cd ots-$otsVer-al${osVer}
   touch .cvmfscatalog
   rm ots-quick-spack-start_${spackVer}.sh
   wget https://raw.githubusercontent.com/art-daq/otsdaq_demo/refs/heads/develop/tools/ots-quick-spack-start_${spackVer}.sh && chmod +x ots-quick-spack-start_${spackVer}.sh

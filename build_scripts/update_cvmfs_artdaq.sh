@@ -48,7 +48,8 @@ fi
 if [ $do_build -eq 1 ];then
     echo "Building artdaq-$artdaqVer using Spack $spackVer on Alma$osVer"
     cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
-    mkdir artdaq-$artdaqVer-al${osVer};cd artdaq-$artdaqVer-al${osVer}
+    mkdir artdaq-$artdaqVer-al${osVer}
+    cd artdaq-$artdaqVer-al${osVer}
     touch .cvmfscatalog
     rm quick-spack-start_${spackVer}.sh*
     wget https://raw.githubusercontent.com/art-daq/artdaq_demo/refs/heads/develop/tools/quick-spack-start_${spackVer}.sh && chmod +x quick-spack-start_${spackVer}.sh
