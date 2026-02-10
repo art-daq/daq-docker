@@ -67,7 +67,7 @@ if [ $do_build -eq 1 ];then
   rm .build_verified
   rm ots-quick-spack-start_${spackVer}.sh
   wget https://raw.githubusercontent.com/art-daq/otsdaq_demo/refs/heads/develop/tools/ots-quick-spack-start_${spackVer}.sh && chmod +x ots-quick-spack-start_${spackVer}.sh
-  ./ots-quick-spack-start_${spackVer}.sh --padding --no-kmod --no-view --arch linux-almalinux9-x86_64_v3 --tag $otsVer \
+  ./ots-quick-spack-start_${spackVer}.sh --padding --no-kmod --no-view --arch linux-almalinux${osVer}-x86_64_v3 --tag $otsVer \
                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer-al${osVer} \
                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer-al${osVer}
   cleanup
