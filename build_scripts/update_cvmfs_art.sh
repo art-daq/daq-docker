@@ -16,27 +16,37 @@ function cleanup() {
     )
 }
 
-dir=/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer-al${osVer}
+function verify() {
+    if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer-al$osVer ]; then
+        echo "Build area does not exist, cannot verify build"
+        return 1
+    fi
 
-do_build=${force}
-if ! [ -d $dir ]; then
-  do_build=1
-else
-    echo "Build area exists, checking spack_${spackVer}/art-suite-$artVer-al${osVer}"
-    cd $dir
-
-    if [ -f .build_verified ];then
-        echo "Build previously verified, skipping Spack find test"
-        do_build=0
-    else
-        echo "Setting up Spack"
+    res=0
+    cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer-al$osVer
+    if ! [ -f .build_verified ]; then
+        echo "Verifying build, setting up Spack"
         source setup-env.sh
         echo "activate art-$artVer-al${osVer}"
         spack env activate art-$artVer-al${osVer}
         echo "test install"
-        spack find --format '{name}' art-suite &>/dev/null || do_build=1
+        spack find --format '{name}' art-suite &>/dev/null || res=1
         spack env deactivate
+        if [ $res -eq 0 ]; then
+            touch .build_verified
+        fi
+    else
+        echo "Build already verified, skipping verification step"
     fi
+
+    return $res
+}
+
+if [ $force -eq 0 ]; then
+    verify
+    do_build=$?
+else
+    do_build=1
 fi
 
 if [ $do_build -eq 1 ];then
@@ -45,13 +55,14 @@ if [ $do_build -eq 1 ];then
   mkdir art-suite-$artVer-al$osVer
   cd art-suite-$artVer-al$osVer
   touch .cvmfscatalog
+  rm .build_verified
   rm art-suite-spack-start_${spackVer}.sh
   wget https://raw.githubusercontent.com/art-daq/artdaq_demo/refs/heads/develop/tools/art-suite-spack-start_${spackVer}.sh && chmod +x art-suite-spack-start_${spackVer}.sh
   ./art-suite-spack-start_${spackVer}.sh --padding --no-view -s ${artVer:1} --arch linux-almalinux${osVer}-x86_64_v3
   cleanup
+  verify
 else
   echo "art-suite-$artVer-al${osVer} is up to date, no build needed"
-  touch .build_verified
 fi
 
 git config --global --unset-all safe.directory
