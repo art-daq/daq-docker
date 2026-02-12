@@ -43,7 +43,7 @@ function build_areas() {
                    -e spackVer=$spackVer \
                    -v ./build_scripts:/opt/build_scripts \
                    -v ./spack_$spackVer:/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_$spackVer \
-                   $image /opt/build_scripts/update_cvmfs_art.sh
+                   $image /opt/build_scripts/build_art.sh
     fi
 
     if [ $doArtdaqBuild -eq 1 ];then
@@ -55,7 +55,7 @@ function build_areas() {
                    -e spackVer=$spackVer \
                    -v ./build_scripts:/opt/build_scripts \
                    -v ./spack_$spackVer:/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_$spackVer \
-                   $image /opt/build_scripts/update_cvmfs_artdaq.sh
+                   $image /opt/build_scripts/build_artdaq.sh
     fi
 
     if [ $doOtsBuild -eq 1 ];then
@@ -68,7 +68,7 @@ function build_areas() {
                    -e spackVer=$spackVer \
                    -v ./build_scripts:/opt/build_scripts \
                    -v ./spack_$spackVer:/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_$spackVer \
-                   $image /opt/build_scripts/update_cvmfs_ots.sh
+                   $image /opt/build_scripts/build_ots.sh
     fi
 
     if [ $doMu2eBuild -eq 1 ];then
@@ -82,7 +82,7 @@ function build_areas() {
                    -e spackVer=$spackVer \
                    -v ./build_scripts:/opt/build_scripts \
                    -v ./spack_$spackVer:/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_$spackVer \
-                   $image /opt/build_scripts/update_cvmfs_mu2e.sh
+                   $image /opt/build_scripts/build_mu2e.sh
     fi
 }
 

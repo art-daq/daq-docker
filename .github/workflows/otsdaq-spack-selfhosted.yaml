@@ -21,7 +21,6 @@ jobs:
       contents: read
     strategy:
       fail-fast: false
-      max-parallel: 1
       matrix:
         os: [ 'alma9', 'alma10' ]
         spackVer: [ 'v0.28', 'v1.1' ]

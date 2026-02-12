@@ -9,6 +9,7 @@ mu2eVer=${mu2eVer:-v10_00_00}
 osVer=${osVer:-9}
 spackVer=${spackVer:-v0.28}
 force=${force:-0}
+base_dir=${base_dir:-/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}}
 
 function cleanup() {
     (
@@ -20,13 +21,13 @@ function cleanup() {
 }
 
 function verify() {
-    if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer-al${osVer} ]; then
+    if ! [ -d ${base_dir}/mu2e-tdaq-$mu2eVer-al${osVer} ]; then
         echo "Build area does not exist, cannot verify build"
         return 1
     fi
 
     res=0
-    cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/mu2e-tdaq-$mu2eVer-al${osVer}
+    cd ${base_dir}/mu2e-tdaq-$mu2eVer-al${osVer}
     if ! [ -f .build_verified ]; then
         echo "Verifying build, setting up Spack"
         source setup-env.sh
@@ -46,7 +47,7 @@ function verify() {
 }
 
 # Check dependency
-if ! [ -f /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer-al${osVer}/.build_verified ]; then
+if ! [ -f ${base_dir}/ots-$otsVer-al${osVer}/.build_verified ]; then
     echo "Dependency ots-$otsVer-al${osVer} not built; please run update_cvmfs_ots.sh first."
     git config --global --unset-all safe.directory
     exit 1
@@ -61,7 +62,7 @@ fi
 
 if [ $do_build -eq 1 ];then
   echo "Building mu2e-tdaq-$mu2eVer using Spack $spackVer on Alma$osVer"
-  cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
+  cd ${base_dir}
   mkdir mu2e-tdaq-$mu2eVer-al${osVer}
   cd mu2e-tdaq-$mu2eVer-al${osVer}
   touch .cvmfscatalog
@@ -69,9 +70,9 @@ if [ $do_build -eq 1 ];then
   rm mu2e-quick-spack-start_${spackVer}.sh*
   wget https://raw.githubusercontent.com/Mu2e/otsdaq_mu2e/refs/heads/develop/tools/mu2e-quick-spack-start_${spackVer}.sh && chmod +x mu2e-quick-spack-start_${spackVer}.sh
   ./mu2e-quick-spack-start_${spackVer}.sh --padding --no-kmod --no-emacs --no-view --arch linux-almalinux${osVer}-x86_64_v3 --tag $mu2eVer \
-                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/ots-$otsVer-al${osVer} \
-                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer-al${osVer} \
-                              --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer-al${osVer}
+                              --upstream ${base_dir}/ots-$otsVer-al${osVer} \
+                              --upstream ${base_dir}/artdaq-$artdaqVer-al${osVer} \
+                              --upstream ${base_dir}/art-suite-$artVer-al${osVer}
   cleanup
   verify
 else

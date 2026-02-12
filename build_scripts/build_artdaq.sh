@@ -7,6 +7,7 @@ artdaqVer=${artdaqVer:-v4_05_00}
 osVer=${osVer:-9}
 spackVer=${spackVer:-v0.28}
 force=${force:-0}
+base_dir=${base_dir:-/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}}
 
 function cleanup() {
     (
@@ -18,13 +19,13 @@ function cleanup() {
 }
 
 function verify() {
-    if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer-al${osVer} ]; then
+    if ! [ -d ${base_dir}/artdaq-$artdaqVer-al${osVer} ]; then
         echo "Build area does not exist, cannot verify build"
         return 1
     fi
 
     res=0
-    cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/artdaq-$artdaqVer-al${osVer}
+    cd ${base_dir}/artdaq-$artdaqVer-al${osVer}
     if ! [ -f .build_verified ]; then
         echo "Verifying build, setting up Spack"
         source setup-env.sh
@@ -44,7 +45,7 @@ function verify() {
 }
 
 # Check dependency
-if ! [ -f /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-${artVer}-al${osVer}/.build_verified ]; then
+if ! [ -f ${base_dir}/art-suite-${artVer}-al${osVer}/.build_verified ]; then
     echo "Dependency art-suite-${artVer}-al${osVer} not built; please run update_cvmfs_art.sh first."
     git config --global --unset-all safe.directory
     exit 1
@@ -59,7 +60,7 @@ fi
 
 if [ $do_build -eq 1 ];then
     echo "Building artdaq-$artdaqVer using Spack $spackVer on Alma$osVer"
-    cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
+    cd ${base_dir}
     mkdir artdaq-$artdaqVer-al${osVer}
     cd artdaq-$artdaqVer-al${osVer}
     touch .cvmfscatalog
@@ -67,7 +68,7 @@ if [ $do_build -eq 1 ];then
     rm quick-spack-start_${spackVer}.sh*
     wget https://raw.githubusercontent.com/art-daq/artdaq_demo/refs/heads/develop/tools/quick-spack-start_${spackVer}.sh && chmod +x quick-spack-start_${spackVer}.sh
     ./quick-spack-start_${spackVer}.sh --tag $artdaqVer --padding --no-kmod --no-view --arch linux-almalinux${osVer}-x86_64_v3 \
-                           --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer-al${osVer}
+                           --upstream ${base_dir}/art-suite-$artVer-al${osVer}
     cleanup
     verify
 else
