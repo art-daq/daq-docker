@@ -4,8 +4,8 @@ ARG BASE_IMAGE=eflumerf/alma9-spack:latest
 
 FROM ${BASE_IMAGE} AS intermediate
 
-ARG ARTDAQ_AREA=artdaq-v4_05_00
-ARG ART_AREA=art-suite-s132.1
+ARG ARTDAQ_AREA=artdaq-v4_05_00-al9
+ARG ART_AREA=art-suite-s133-al9
 ARG SPACK_VERSION=v0.28
 ARG SCRIPT_NAME=quick-spack-start_${SPACK_VERSION}.sh
 
