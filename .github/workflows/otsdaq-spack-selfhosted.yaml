@@ -22,17 +22,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ 'al9', 'al10' ]
+        os: [ '9', '10' ]
         spackVer: [ 'v0.28', 'v1.1' ]
-    runs-on: [self-hosted, "${{ matrix.os }}"]
+    runs-on: [self-hosted, "alma${{ matrix.os }}"]
     steps:
       - name: Test CVMFS
         id: cvmfsdirs
         run: |
           ls -l /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}
-          art=`ls -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/art-suite-*-${{matrix.os}}|tail -1|sed 's|.*/||g'`
-          artdaq=`ls -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/artdaq-*-${{matrix.os}}|tail -1|sed 's|.*/||g'`
-          ots=`ls -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/ots-*-${{matrix.os}}|tail -1|sed 's|.*/||g'`
+          art=`ls -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/art-suite-*-al${{matrix.os}}|tail -1|sed 's|.*/||g'`
+          artdaq=`ls -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/artdaq-*-al${{matrix.os}}|tail -1|sed 's|.*/||g'`
+          ots=`ls -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/ots-*-al${{matrix.os}}|tail -1|sed 's|.*/||g'`
           echo "${art} ${artdaq} ${ots}"
           echo "art=${art}" >> $GITHUB_OUTPUT
           echo "artdaq=${artdaq}" >> $GITHUB_OUTPUT
@@ -62,8 +62,8 @@ jobs:
         uses: docker/metadata-action@master
         with:
           images: |
-            eflumerf/otsdaq-spack${{matrix.spackVer}}-${{matrix.os}}
-            ghcr.io/art-daq/otsdaq-spack${{matrix.spackVer}}-${{matrix.os}}
+            eflumerf/otsdaq-spack${{matrix.spackVer}}-alma${{matrix.os}}
+            ghcr.io/art-daq/otsdaq-spack${{matrix.spackVer}}-alma${{matrix.os}}
           tags: |
             type=raw,value=latest
             type=ref,event=branch
@@ -93,5 +93,5 @@ jobs:
             ART_AREA=${{ steps.cvmfsdirs.outputs.art }}
             ARTDAQ_AREA=${{ steps.cvmfsdirs.outputs.artdaq }}
             OTS_AREA=${{ steps.cvmfsdirs.outputs.ots }}
-            BASE_IMAGE=eflumerf/${{ matrix.os }}-spack:latest
+            BASE_IMAGE=eflumerf/alma${{ matrix.os }}-spack:latest
             SPACK_VERSION=${{ matrix.spackVer }}
