@@ -9,6 +9,7 @@ on:
       - 'v*'
     paths:
       - dockerfiles/artdaq-spack.dockerfile
+      - .github/workflows/artdaq-spack-selfhosted.yaml
 
   workflow_dispatch:
 

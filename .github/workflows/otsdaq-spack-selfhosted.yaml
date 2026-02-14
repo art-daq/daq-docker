@@ -9,6 +9,7 @@ on:
       - 'v*'
     paths:
       - dockerfiles/otsdaq-spack.dockerfile
+      - .github/workflows/otsdaq-spack-selfhosted.yaml
 
   workflow_dispatch:
 
