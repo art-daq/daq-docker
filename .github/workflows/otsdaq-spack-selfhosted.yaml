@@ -67,8 +67,7 @@ jobs:
             ghcr.io/art-daq/otsdaq-spack
           tags: |
             type=raw,value=latest,enable=${{matrix.os == '9' && matrix.spackVer == 'v0.28' }}
-            type=raw,value=spack${{matrix.spackVer}}
-            type=raw,value=alma${{matrix.os}}
+            type=raw,value=alma${{matrix.os}}-spack${{matrix.spackVer}}
             type=ref,event=branch
             type=ref,event=tag
 
