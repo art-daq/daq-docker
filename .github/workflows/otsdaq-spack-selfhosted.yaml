@@ -62,10 +62,12 @@ jobs:
         uses: docker/metadata-action@master
         with:
           images: |
-            eflumerf/otsdaq-spack${{matrix.spackVer}}-alma${{matrix.os}}
-            ghcr.io/art-daq/otsdaq-spack${{matrix.spackVer}}-alma${{matrix.os}}
+            eflumerf/otsdaq-spack
+            ghcr.io/art-daq/otsdaq-spack
           tags: |
-            type=raw,value=latest
+            type=raw,value=latest,enable=${{matrix.os == '9' && matrix.spackVer == 'v0.28' }}
+            type=raw,value=spack${{matrix.spackVer}}
+            type=raw,value=alma${{matrix.os}}
             type=ref,event=branch
             type=ref,event=tag
 
