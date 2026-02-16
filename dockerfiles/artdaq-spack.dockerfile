@@ -27,7 +27,7 @@ RUN chmod +x /opt/artdaq/${SCRIPT_NAME} && \
                    --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/${ART_AREA}
 
 # Create artdaq_demo_rte.sh
-RUN rm artdaq_demo_rte.sh && source setupARTDAQDEMO && spack clean -a
+RUN rm artdaq_demo_rte.sh; source setupARTDAQDEMO && spack clean -a
 
 RUN rm -rf /cvmfs/fermilab.opensciencegrid.org/products
 

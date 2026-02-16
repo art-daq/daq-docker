@@ -32,7 +32,7 @@ RUN chmod +x /opt/otsdaq/$SCRIPT_NAME && \
                    --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/$ART_AREA
 
 # Create setup_ots_rte.sh
-RUN rm setup_ots_rte.sh && source setup_ots.sh && spack clean -a
+RUN rm setup_ots_rte.sh; source setup_ots.sh && spack clean -a
 
 RUN rm -rf /cvmfs/fermilab.opensciencegrid.org/products
 
