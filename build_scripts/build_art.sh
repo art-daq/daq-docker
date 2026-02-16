@@ -6,6 +6,7 @@ artVer=${artVer:-s133}
 osVer=${osVer:-9}
 spackVer=${spackVer:-v0.28}
 force=${force:-0}
+base_dir=${base_dir:-/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}}
 
 function cleanup() {
     (
@@ -17,13 +18,13 @@ function cleanup() {
 }
 
 function verify() {
-    if ! [ -d /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer-al$osVer ]; then
+    if ! [ -d ${base_dir}/art-suite-$artVer-al$osVer ]; then
         echo "Build area does not exist, cannot verify build"
         return 1
     fi
 
     res=0
-    cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}/art-suite-$artVer-al$osVer
+    cd ${base_dir}/art-suite-$artVer-al$osVer
     if ! [ -f .build_verified ]; then
         echo "Verifying build, setting up Spack"
         source setup-env.sh
@@ -51,7 +52,7 @@ fi
 
 if [ $do_build -eq 1 ];then
   echo "Building art-suite-$artVer using Spack $spackVer on Alma$osVer"
-  cd /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}
+  cd ${base_dir}
   mkdir art-suite-$artVer-al$osVer
   cd art-suite-$artVer-al$osVer
   touch .cvmfscatalog
