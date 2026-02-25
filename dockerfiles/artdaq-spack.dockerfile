@@ -22,7 +22,7 @@ RUN mkdir -p /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_V
 COPY spack_${SPACK_VERSION}/${ARTDAQ_AREA} /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/${ARTDAQ_AREA}
 
 RUN chmod +x /opt/artdaq/${SCRIPT_NAME} && \
-    ./${SCRIPT_NAME} --develop --dev-only --no-kmod --arch linux-almalinux9-x86_64_v3 \
+    ./${SCRIPT_NAME} --develop --dev-only --no-kmod --caen --arch linux-almalinux9-x86_64_v3 \
                    --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/${ARTDAQ_AREA} \
                    --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/${ART_AREA}
 
