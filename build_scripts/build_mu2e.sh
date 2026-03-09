@@ -17,6 +17,7 @@ function cleanup() {
         source setup-env.sh
         spack reindex
         rm -rf daqlogs daqdata CMakeLists.txt* fonts* log qms-log run_records Data databases script_log DAQInterface Data.bak*
+        source setup_ots.sh
     )
 }
 

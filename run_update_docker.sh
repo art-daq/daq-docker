@@ -2,15 +2,15 @@
 
 artVer=s133
 artdaqVer=v4_05_00
-otsVer=v3_05_00
+otsVer=v3_05_01
 mu2eVer=v10_00_00
 
 doArtBuild=1
 doArtdaqBuild=1
 doOtsBuild=1
-doMu2eBuild=0
+doMu2eBuild=1
 update_local=0
-update_cvmfs=0
+update_cvmfs=1
 
 forceArtBuild=0
 forceArtdaqBuild=0
