@@ -94,5 +94,5 @@ jobs:
           build-args: |
             ART_AREA=${{ steps.cvmfsdirs.outputs.art }}
             ARTDAQ_AREA=${{ steps.cvmfsdirs.outputs.artdaq }}
-            BASE_IMAGE=eflumerf/alma${{ matrix.os }}-spack:latest
+            BASE_IMAGE=ghcr.io/art-daq/alma${{ matrix.os }}-spack:latest
             SPACK_VERSION=${{ matrix.spackVer }}
