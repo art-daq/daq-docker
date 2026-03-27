@@ -95,5 +95,5 @@ jobs:
             ART_AREA=${{ steps.cvmfsdirs.outputs.art }}
             ARTDAQ_AREA=${{ steps.cvmfsdirs.outputs.artdaq }}
             OTS_AREA=${{ steps.cvmfsdirs.outputs.ots }}
-            BASE_IMAGE=eflumerf/alma${{ matrix.os }}-spack:latest
+            BASE_IMAGE=ghcr.io/art-daq/alma${{ matrix.os }}-spack:latest
             SPACK_VERSION=${{ matrix.spackVer }}
