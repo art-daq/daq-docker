@@ -1,17 +1,18 @@
 #!/bin/bash
 
-artVer=s133
-artdaqVer=v4_05_00
-otsVer=v3_05_01
-mu2eVer=v10_00_00
+artVer=s134
+artdaqVer=v4_07_00
+otsVer=v3_07_00
+mu2eVer=v12_00_00
 
 doArtBuild=1
 doArtdaqBuild=1
 doOtsBuild=1
 doMu2eBuild=1
 update_local=0
-update_cvmfs=1
+update_cvmfs=0
 
+checkOnly=0
 forceArtBuild=0
 forceArtdaqBuild=0
 forceOtsBuild=0
@@ -41,6 +42,7 @@ function build_areas() {
                    -e force=$forceArtBuild \
                    -e osVer=$osVer \
                    -e spackVer=$spackVer \
+		   -e checkOnly=$checkOnly \
                    -v ./build_scripts:/opt/build_scripts \
                    -v ./spack_$spackVer:/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_$spackVer \
                    $image /opt/build_scripts/build_art.sh
@@ -53,6 +55,7 @@ function build_areas() {
                    -e force=$forceArtdaqBuild \
                    -e osVer=$osVer \
                    -e spackVer=$spackVer \
+		   -e checkOnly=$checkOnly \
                    -v ./build_scripts:/opt/build_scripts \
                    -v ./spack_$spackVer:/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_$spackVer \
                    $image /opt/build_scripts/build_artdaq.sh
@@ -66,6 +69,7 @@ function build_areas() {
                    -e force=$forceOtsBuild \
                    -e osVer=$osVer \
                    -e spackVer=$spackVer \
+		   -e checkOnly=$checkOnly \
                    -v ./build_scripts:/opt/build_scripts \
                    -v ./spack_$spackVer:/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_$spackVer \
                    $image /opt/build_scripts/build_ots.sh
@@ -80,6 +84,7 @@ function build_areas() {
                    -e force=$forceMu2eBuild \
                    -e osVer=$osVer \
                    -e spackVer=$spackVer \
+		   -e checkOnly=$checkOnly \
                    -v ./build_scripts:/opt/build_scripts \
                    -v ./spack_$spackVer:/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_$spackVer \
                    $image /opt/build_scripts/build_mu2e.sh

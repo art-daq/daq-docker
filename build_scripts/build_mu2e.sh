@@ -9,6 +9,7 @@ mu2eVer=${mu2eVer:-v10_00_00}
 osVer=${osVer:-9}
 spackVer=${spackVer:-v0.28}
 force=${force:-0}
+checkOnly=${checkOnly:-0}
 base_dir=${base_dir:-/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}}
 
 function cleanup() {
@@ -61,6 +62,11 @@ else
     do_build=1
 fi
 
+if [ $checkOnly -eq 1 ];then
+    echo "mu2e-tdaq-$mu2eVer-al$osVer would build $do_build"
+	exit $do_build
+fi
+
 if [ $do_build -eq 1 ];then
   echo "Building mu2e-tdaq-$mu2eVer using Spack $spackVer on Alma$osVer"
   cd ${base_dir}
@@ -68,7 +74,7 @@ if [ $do_build -eq 1 ];then
   cd mu2e-tdaq-$mu2eVer-al${osVer}
   touch .cvmfscatalog
   rm .build_verified
-  rm mu2e-quick-spack-start_${spackVer}.sh*
+  rm mu2e-quick-spack-start_${spackVer}.sh* setup_spack_build_system*.sh
   wget https://raw.githubusercontent.com/Mu2e/otsdaq_mu2e/refs/heads/develop/tools/mu2e-quick-spack-start_${spackVer}.sh && chmod +x mu2e-quick-spack-start_${spackVer}.sh
   ./mu2e-quick-spack-start_${spackVer}.sh --padding --no-kmod --no-emacs --no-view --arch linux-almalinux${osVer}-x86_64_v3 --tag $mu2eVer \
                               --upstream ${base_dir}/ots-$otsVer-al${osVer} \

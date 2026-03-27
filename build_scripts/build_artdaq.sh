@@ -7,6 +7,7 @@ artdaqVer=${artdaqVer:-v4_05_00}
 osVer=${osVer:-9}
 spackVer=${spackVer:-v0.28}
 force=${force:-0}
+checkOnly=${checkOnly:-0}
 base_dir=${base_dir:-/cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${spackVer}}
 
 function cleanup() {
@@ -59,6 +60,11 @@ else
     do_build=1
 fi
 
+if [ $checkOnly -eq 1 ];then
+    echo "artdaq-$artdaqVer-al$osVer would build? $do_build"
+	exit $do_build
+fi
+
 if [ $do_build -eq 1 ];then
     echo "Building artdaq-$artdaqVer using Spack $spackVer on Alma$osVer"
     cd ${base_dir}
@@ -66,7 +72,7 @@ if [ $do_build -eq 1 ];then
     cd artdaq-$artdaqVer-al${osVer}
     touch .cvmfscatalog
     rm .build_verified
-    rm quick-spack-start_${spackVer}.sh*
+    rm quick-spack-start_${spackVer}.sh* setup_spack_build_system*.sh
     wget https://raw.githubusercontent.com/art-daq/artdaq_demo/refs/heads/develop/tools/quick-spack-start_${spackVer}.sh && chmod +x quick-spack-start_${spackVer}.sh
     ./quick-spack-start_${spackVer}.sh --tag $artdaqVer --padding --no-kmod --caen --no-view --arch linux-almalinux${osVer}-x86_64_v3 \
                            --upstream ${base_dir}/art-suite-$artVer-al${osVer}
