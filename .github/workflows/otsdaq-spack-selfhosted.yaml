@@ -77,6 +77,15 @@ jobs:
           mkdir -p $build_dir
           cd $build_dir
           cp ${{ github.workspace }}/daq-docker/dockerfiles/otsdaq-spack.dockerfile $build_dir/Dockerfile
+          for d in $build_dir/spack_${{matrix.spackVer}}/art-suite-*-al${{matrix.os}}; do
+            [ -d "$d" ] && [ "$(basename $d)" != "${{ steps.cvmfsdirs.outputs.art }}" ] && rm -rf "$d"
+          done
+          for d in $build_dir/spack_${{matrix.spackVer}}/artdaq-*-al${{matrix.os}}; do
+            [ -d "$d" ] && [ "$(basename $d)" != "${{ steps.cvmfsdirs.outputs.artdaq }}" ] && rm -rf "$d"
+          done
+          for d in $build_dir/spack_${{matrix.spackVer}}/ots-*-al${{matrix.os}}; do
+            [ -d "$d" ] && [ "$(basename $d)" != "${{ steps.cvmfsdirs.outputs.ots }}" ] && rm -rf "$d"
+          done
           rsync --mkpath --delete --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.art }}/ $build_dir/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.art }}
           rsync --mkpath --delete --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.artdaq }}/ $build_dir/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.artdaq }}
           rsync --mkpath --delete --progress -ax /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.ots }}/ $build_dir/spack_${{matrix.spackVer}}/${{ steps.cvmfsdirs.outputs.ots }}
