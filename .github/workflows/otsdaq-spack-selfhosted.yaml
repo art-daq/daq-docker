@@ -106,3 +106,4 @@ jobs:
             OTS_AREA=${{ steps.cvmfsdirs.outputs.ots }}
             BASE_IMAGE=ghcr.io/art-daq/alma${{ matrix.os }}-spack:latest
             SPACK_VERSION=${{ matrix.spackVer }}
+            ARCH=linux-almalinux${{ matrix.os }}-x86_64_v3

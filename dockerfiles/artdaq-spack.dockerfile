@@ -8,6 +8,7 @@ ARG ARTDAQ_AREA=artdaq-v4_05_00-al9
 ARG ART_AREA=art-suite-s133-al9
 ARG SPACK_VERSION=v0.28
 ARG SCRIPT_NAME=quick-spack-start_${SPACK_VERSION}.sh
+ARG ARCH=linux-almalinux9-x86_64_v3
 
 SHELL ["/bin/bash", "-c"]
 
@@ -22,7 +23,7 @@ RUN mkdir -p /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_V
 COPY spack_${SPACK_VERSION}/${ARTDAQ_AREA} /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/${ARTDAQ_AREA}
 
 RUN chmod +x /opt/artdaq/${SCRIPT_NAME} && \
-    ./${SCRIPT_NAME} --develop --dev-only --no-kmod --caen --arch linux-almalinux9-x86_64_v3 \
+    ./${SCRIPT_NAME} --develop --dev-only --no-kmod --caen --arch ${ARCH} \
                    --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/${ARTDAQ_AREA} \
                    --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/${ART_AREA}
 

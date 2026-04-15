@@ -102,3 +102,4 @@ jobs:
             ARTDAQ_AREA=${{ steps.cvmfsdirs.outputs.artdaq }}
             BASE_IMAGE=ghcr.io/art-daq/alma${{ matrix.os }}-spack:latest
             SPACK_VERSION=${{ matrix.spackVer }}
+            ARCH=linux-almalinux${{ matrix.os }}-x86_64_v3
