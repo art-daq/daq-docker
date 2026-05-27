@@ -107,3 +107,12 @@ jobs:
             BASE_IMAGE=ghcr.io/art-daq/alma${{ matrix.os }}-spack:latest
             SPACK_VERSION=${{ matrix.spackVer }}
             ARCH=linux-almalinux${{ matrix.os }}-x86_64_v3
+
+      - name: "Cleanup Docker"
+        if: always()
+        run: |
+            docker stop $(docker ps -q) 2>/dev/null
+            docker rm -f $(docker ps -aq) 2>/dev/null
+            docker rmi -f $(docker images -aq) 2>/dev/null
+            docker volume rm -f $(docker volume ls -q) 2>/dev/null
+            docker system prune --all --volumes --force
