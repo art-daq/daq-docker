@@ -1,14 +1,14 @@
 #!/bin/bash
 
 artVer=s134
-artdaqVer=v4_07_00
-otsVer=v3_07_00
+artdaqVer=v4_09_00
+otsVer=v3_09_00
 mu2eVer=v12_00_00
 
 doArtBuild=1
 doArtdaqBuild=1
 doOtsBuild=1
-doMu2eBuild=1
+doMu2eBuild=0
 update_local=0
 update_cvmfs=0
 
