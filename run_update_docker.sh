@@ -114,12 +114,8 @@ if [ $spack1Build -eq 1 ];then
 fi
 
 if [ $update_cvmfs -eq 1 ];then
-    delete_arg=""
-    if [ $forceArtBuild -eq 1 ] || [ $forceArtdaqBuild -eq 1 ] || [ $forceOtsBuild -eq 1 ] || [ $forceMu2eBuild -eq 1 ]; then
-        delete_arg="--delete"
-    fi
-    rsync -ax $delete_arg --progress spack_v0.28/ artdaq@artdaqgpvm01:/grid/fermiapp/products/artdaq/spack_v0.28/
-    rsync -ax $delete_arg --progress spack_v1.1/ artdaq@artdaqgpvm01:/grid/fermiapp/products/artdaq/spack_v1.1/
+    rsync -ax --progress spack_v0.28/ artdaq@artdaqgpvm01:/grid/fermiapp/products/artdaq/spack_v0.28/
+    rsync -ax --progress spack_v1.1/ artdaq@artdaqgpvm01:/grid/fermiapp/products/artdaq/spack_v1.1/
     ssh artdaq@artdaqgpvm01 ./update_cvmfs.sh
 fi
 
