@@ -25,6 +25,9 @@ jobs:
       matrix:
         os: [ '9', '10' ]
         spackVer: [ 'v0.28', 'v1.1' ]
+        exclude:
+         - os: '10'
+           spackVer: 'v0.28'
     runs-on: [self-hosted, "alma${{ matrix.os }}"]
     steps:
       - name: Test CVMFS
