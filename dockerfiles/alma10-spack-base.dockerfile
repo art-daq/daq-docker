@@ -13,23 +13,25 @@ RUN dnf clean all \
  && dnf clean all
 
 # Tools for building the DAQ release
-RUN dnf install -y kernel-devel asciidoc bzip2 bzip2-devel bzip2-libs \
-                   cyrus-sasl-devel expat-devel elfutils elfutils-devel elfutils-libs fontconfig-devel \
+RUN dnf install -y asciidoc binutils-devel bzip2 bzip2-devel bzip2-libs cyrus-sasl-devel doxygen \
+                   elfutils elfutils-devel elfutils-libs expat-devel fontconfig-devel            \
                    freetype-devel gcc gcc-c++ gcc-gfortran gdb gdbm gdbm-devel gettext-devel git \
-                   glibc-devel gperf gtk3-devel java-latest-openjdk java-latest-openjdk-devel \
-                   java-latest-openjdk-headless krb5-devel libICE-devel libSM-devel libX11-devel \
-                   libXdmcp-devel libXext-devel libXft-devel libXi-devel libXmu-devel libXpm-devel \
-                   libXrandr-devel libXrender-devel libXt-devel libXv-devel libXxf86vm-devel \
-                   libbsd-devel libcurl-devel libdb-devel libfontenc-devel libgcc libnsl2 librdmacm \
-                   libtirpc-devel libtool libunwind-devel libuuid-devel libxkbcommon-devel \
-                   libxkbcommon-x11-devel libxshmfence-devel make mesa-libGL-devel mesa-libGLU \
-                   mesa-libGLU-devel ncurses-compat-libs ncurses-devel ninja-build numactl-devel \
-                   openssh-server openssl openssl-devel patch patchelf perl-devel python3 \
-                   python3-devel python3-libs python3-pip python3-pyyaml python3-setuptools \
-                   python3-setuptools_scm readline-devel rsync tar tcl-devel texinfo tk tk-devel unzip \
-                   wget xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel \
-                   xcb-util-wm-devel xorg-x11-util-macros xorg-x11-xtrans-devel xxhash xxhash-libs \
-                   xz-devel zip binutils-devel doxygen jq procps-ng zlib-ng-compat-static which tmux \
+                   glibc-devel gperf gtk3-devel java-latest-openjdk java-latest-openjdk-devel    \
+                   java-latest-openjdk-headless jq kernel-devel krb5-devel libICE-devel          \
+                   libSM-devel libX11-devel libXdmcp-devel libXext-devel libXft-devel            \
+                   libXi-devel libXmu-devel libXpm-devel libXrandr-devel libXrender-devel        \
+                   libXt-devel libXv-devel libXxf86vm-devel libbsd-devel libcurl-devel           \
+                   libdb-devel libfontenc-devel libgcc libnsl2 librdmacm libtirpc-devel libtool  \
+                   libunwind-devel libuuid-devel libxkbcommon-devel libxkbcommon-x11-devel       \
+                   libxshmfence-devel make mesa-libGL-devel mesa-libGLU mesa-libGLU-devel        \
+                   ncurses-compat-libs ncurses-devel net-tools ninja-build numactl-devel         \
+                   openssh-server openssl openssl-devel patch patchelf perl-devel procps-ng      \
+                   python3 python3-devel python3-libs python3-pip python3-pyyaml                 \
+                   python3-setuptools python3-setuptools_scm readline-devel rsync tar tcl-devel  \
+                   texinfo tk tk-devel tmux unzip wget which xcb-util-image-devel                \
+                   xcb-util-keysyms-devel xcb-util-renderutil-devel xcb-util-wm-devel            \
+                   xorg-x11-util-macros xorg-x11-xtrans-devel xxhash xxhash-libs xz-devel zip    \
+                   zlib-ng-compat-static                                                         \
 && dnf clean all
 
 
