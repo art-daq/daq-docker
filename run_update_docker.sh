@@ -1,8 +1,8 @@
 #!/bin/bash
 
 artVer=s134
-artdaqVer=v4_09_00
-otsVer=v3_09_00
+artdaqVer=v4_10_00
+otsVer=v3_10_00
 mu2eVer=v13_00_00
 
 doArtBuild=1
