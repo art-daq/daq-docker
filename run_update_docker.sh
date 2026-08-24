@@ -8,7 +8,7 @@ mu2eVer=v14_00_00
 doArtBuild=1
 doArtdaqBuild=1
 doOtsBuild=1
-doMu2eBuild=1
+doMu2eBuild=0
 update_local=1
 update_cvmfs=0
 
