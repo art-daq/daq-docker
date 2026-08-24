@@ -77,9 +77,7 @@ if [ $do_build -eq 1 ];then
   rm mu2e-quick-spack-start_${spackVer}.sh* setup_spack_build_system*.sh
   wget https://raw.githubusercontent.com/Mu2e/otsdaq_mu2e/refs/heads/develop/tools/mu2e-quick-spack-start_${spackVer}.sh && chmod +x mu2e-quick-spack-start_${spackVer}.sh
   ./mu2e-quick-spack-start_${spackVer}.sh --padding --no-kmod --no-emacs --no-view --arch linux-almalinux${osVer}-x86_64_v3 --tag $mu2eVer \
-                              --upstream ${base_dir}/ots-$otsVer-al${osVer} \
-                              --upstream ${base_dir}/artdaq-$artdaqVer-al${osVer} \
-                              --upstream ${base_dir}/art-suite-$artVer-al${osVer}
+                              --upstream ${base_dir}/ots-$otsVer-al${osVer}
   cleanup
   verify
 else

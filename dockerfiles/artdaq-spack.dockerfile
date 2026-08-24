@@ -24,8 +24,7 @@ COPY spack_${SPACK_VERSION}/${ARTDAQ_AREA} /cvmfs/fermilab.opensciencegrid.org/p
 
 RUN chmod +x /opt/artdaq/${SCRIPT_NAME} && \
     ./${SCRIPT_NAME} --develop --dev-only --no-kmod --caen --arch ${ARCH} \
-                   --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/${ARTDAQ_AREA} \
-                   --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/${ART_AREA}
+                   --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/${ARTDAQ_AREA}
 
 # Create artdaq_demo_rte.sh
 RUN rm artdaq_demo_rte.sh; source setupARTDAQDEMO && spack clean -a

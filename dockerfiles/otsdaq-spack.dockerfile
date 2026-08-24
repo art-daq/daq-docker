@@ -28,9 +28,7 @@ COPY spack_${SPACK_VERSION}/$OTS_AREA /cvmfs/fermilab.opensciencegrid.org/produc
 
 RUN chmod +x /opt/otsdaq/$SCRIPT_NAME && \
     ./$SCRIPT_NAME --develop --dev-only --no-kmod --arch ${ARCH} \
-                   --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/$OTS_AREA \
-                   --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/$ARTDAQ_AREA \
-                   --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/$ART_AREA
+                   --upstream /cvmfs/fermilab.opensciencegrid.org/products/artdaq/spack_${SPACK_VERSION}/$OTS_AREA
 
 # Create setup_ots_rte.sh
 RUN rm setup_ots_rte.sh; source setup_ots.sh && spack clean -a

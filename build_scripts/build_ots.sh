@@ -76,8 +76,7 @@ if [ $do_build -eq 1 ];then
   rm ots-quick-spack-start_${spackVer}.sh setup_spack_build_system*.sh
   wget https://raw.githubusercontent.com/art-daq/otsdaq_demo/refs/heads/develop/tools/ots-quick-spack-start_${spackVer}.sh && chmod +x ots-quick-spack-start_${spackVer}.sh
   ./ots-quick-spack-start_${spackVer}.sh --padding --no-kmod --no-view --arch linux-almalinux${osVer}-x86_64_v3 --tag $otsVer \
-                             --upstream ${base_dir}/artdaq-$artdaqVer-al${osVer} \
-                             --upstream ${base_dir}/art-suite-$artVer-al${osVer}
+                             --upstream ${base_dir}/artdaq-$artdaqVer-al${osVer}
   cleanup
   verify
 else
