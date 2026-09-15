@@ -1,16 +1,16 @@
 #!/bin/bash
 
-artVer=s134
-artdaqVer=v4_10_00
-otsVer=v3_10_00
-mu2eVer=v14_00_00
+artVer=s135
+artdaqVer=v4_11_00
+otsVer=v3_11_00
+mu2eVer=v15_00_00
 
 doArtBuild=1
 doArtdaqBuild=1
 doOtsBuild=1
 doMu2eBuild=1
-update_local=1
-update_cvmfs=0
+update_local=0
+update_cvmfs=1
 
 checkOnly=0
 forceArtBuild=0
@@ -116,7 +116,7 @@ fi
 if [ $update_cvmfs -eq 1 ];then
     rsync -ax --progress spack_v0.28/ artdaq@artdaqgpvm01.fnal.gov:/grid/fermiapp/products/artdaq/spack_v0.28/
     rsync -ax --progress spack_v1.1/ artdaq@artdaqgpvm01.fnal.gov:/grid/fermiapp/products/artdaq/spack_v1.1/
-    ssh artdaq@artdaqgpvm01.fnal.gov ./update_cvmfs.sh
+#    ssh artdaq@artdaqgpvm01.fnal.gov ./update_cvmfs.sh
 fi
 
 echo "DONE"
