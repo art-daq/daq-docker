@@ -28,10 +28,10 @@ RUN dnf install -y asciidoc binutils-devel bzip2 bzip2-devel bzip2-libs cyrus-sa
                    numactl-devel openssh-server openssl openssl-devel patch patchelf perl-devel  \
                    procps-ng python3 python3-devel python3-libs python3-pip python3-pyyaml       \
                    python3-setuptools python3-setuptools_scm readline-devel rsync tar tcl-devel  \
-                   texinfo tk tk-devel tmux unzip wget which xcb-util-image-devel                \
-                   xcb-util-keysyms-devel xcb-util-renderutil-devel xcb-util-wm-devel            \
-                   xorg-x11-util-macros xorg-x11-xtrans-devel xxhash xxhash-libs xz-devel zip    \
-                   zlib-ng-compat-static                                                         \
+                   texinfo tk tk-devel tmux unzip uuid uuid-devel wget which                     \
+                   xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel         \
+                   xcb-util-wm-devel xorg-x11-util-macros xorg-x11-xtrans-devel xxhash           \
+                   xxhash-libs xz-devel zip zlib-ng-compat-static                                \
 && dnf clean all
 
 
