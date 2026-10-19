@@ -1,9 +1,9 @@
 #!/bin/bash
 
 artVer=s135
-artdaqVer=v4_11_00
-otsVer=v3_11_00
-mu2eVer=v15_00_00
+artdaqVer=v4_12_00
+otsVer=v3_12_00
+mu2eVer=v16_00_00
 
 doArtBuild=1
 doArtdaqBuild=1
